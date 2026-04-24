@@ -1,0 +1,1153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AWS AI Practitioner – Learning Roadmap</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #080c10;
+    --surface: #0d1318;
+    --surface2: #111820;
+    --border: #1e2d3d;
+    --accent: #00e5ff;
+    --accent2: #ff6b35;
+    --accent3: #7fff6b;
+    --text: #e8f4f8;
+    --muted: #5a7a8a;
+    --gold: #ffd166;
+    --phase1: #00e5ff;
+    --phase2: #7fff6b;
+    --phase3: #ff6b35;
+    --phase4: #c77dff;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Grid bg */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,229,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,229,255,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+
+  /* HERO */
+  .hero {
+    padding: 60px 0 40px;
+    text-align: center;
+    position: relative;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(0,229,255,0.08);
+    border: 1px solid rgba(0,229,255,0.25);
+    border-radius: 4px;
+    padding: 6px 14px;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    animation: fadeDown 0.6s ease both;
+  }
+
+  .hero h1 {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -1px;
+    animation: fadeDown 0.6s 0.1s ease both;
+  }
+
+  .hero h1 span {
+    color: var(--accent);
+    position: relative;
+  }
+
+  .hero-sub {
+    margin-top: 16px;
+    color: var(--muted);
+    font-size: 1rem;
+    font-weight: 400;
+    animation: fadeDown 0.6s 0.2s ease both;
+  }
+
+  .hero-meta {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    flex-wrap: wrap;
+    margin-top: 32px;
+    animation: fadeDown 0.6s 0.3s ease both;
+  }
+
+  .meta-chip {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 10px 18px;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .meta-chip .label { color: var(--muted); }
+  .meta-chip .value { color: var(--text); font-weight: 700; }
+
+  /* SECTION TITLES */
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 32px;
+    padding-top: 60px;
+  }
+
+  .section-line {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .section-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+  }
+
+  .section-title {
+    font-size: 1.6rem;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+  }
+
+  /* EXAM INFO */
+  .exam-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px;
+    margin-bottom: 40px;
+  }
+
+  .exam-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px 16px;
+    text-align: center;
+    animation: fadeUp 0.5s ease both;
+  }
+
+  .exam-card .ec-icon { font-size: 1.4rem; margin-bottom: 8px; }
+  .exam-card .ec-val { font-size: 1.3rem; font-weight: 800; color: var(--accent); font-family: 'Space Mono', monospace; }
+  .exam-card .ec-lbl { font-size: 0.7rem; color: var(--muted); margin-top: 4px; text-transform: uppercase; letter-spacing: 1px; }
+
+  /* DOMAIN BAR */
+  .domains {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 24px;
+    margin-bottom: 40px;
+  }
+
+  .domains h3 {
+    font-size: 0.85rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+    font-family: 'Space Mono', monospace;
+  }
+
+  .domain-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+
+  .domain-name {
+    font-size: 0.8rem;
+    color: var(--text);
+    min-width: 240px;
+    flex-shrink: 0;
+  }
+
+  .domain-bar-wrap {
+    flex: 1;
+    height: 8px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .domain-bar {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 1.2s cubic-bezier(.16,1,.3,1);
+    width: 0;
+  }
+
+  .domain-pct {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--muted);
+    min-width: 36px;
+    text-align: right;
+  }
+
+  /* PHASE TIMELINE */
+  .phases { position: relative; }
+
+  .phases::before {
+    content: '';
+    position: absolute;
+    left: 24px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--accent), var(--phase4));
+    opacity: 0.3;
+  }
+
+  .phase-card {
+    position: relative;
+    padding-left: 64px;
+    margin-bottom: 32px;
+    animation: fadeUp 0.5s ease both;
+  }
+
+  .phase-dot {
+    position: absolute;
+    left: 16px;
+    top: 20px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 3px solid var(--bg);
+    box-shadow: 0 0 0 3px currentColor;
+  }
+
+  .phase-inner {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+
+  .phase-inner:hover {
+    border-color: rgba(0,229,255,0.3);
+    transform: translateX(4px);
+  }
+
+  .phase-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+
+  .phase-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+  }
+
+  .phase-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-top: 2px;
+  }
+
+  .phase-dur {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    padding: 4px 10px;
+    border-radius: 4px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border);
+    white-space: nowrap;
+  }
+
+  .phase-desc {
+    font-size: 0.88rem;
+    color: var(--muted);
+    line-height: 1.6;
+    margin-bottom: 16px;
+  }
+
+  .topics-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 16px;
+  }
+
+  .topic-pill {
+    font-size: 0.72rem;
+    padding: 4px 10px;
+    border-radius: 20px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    font-family: 'Space Mono', monospace;
+  }
+
+  .phase-milestone {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(0,229,255,0.04);
+    border: 1px solid rgba(0,229,255,0.15);
+    border-radius: 6px;
+    padding: 10px 14px;
+    font-size: 0.8rem;
+    color: var(--accent);
+  }
+
+  .phase-check {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 16px;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .checkbox {
+    width: 18px;
+    height: 18px;
+    border: 2px solid var(--border);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    transition: all 0.2s;
+    flex-shrink: 0;
+  }
+
+  .checkbox.done {
+    background: var(--accent3);
+    border-color: var(--accent3);
+    color: #000;
+  }
+
+  .phase-check .check-label {
+    font-size: 0.78rem;
+    color: var(--muted);
+  }
+
+  /* CERT CARDS */
+  .cert-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    margin-bottom: 20px;
+  }
+
+  .cert-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    animation: fadeUp 0.5s ease both;
+    transition: border-color 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cert-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+
+  .cert-card.primary::before { background: linear-gradient(90deg, var(--accent), var(--phase2)); }
+  .cert-card.secondary::before { background: linear-gradient(90deg, var(--phase3), var(--phase4)); }
+  .cert-card.future::before { background: linear-gradient(90deg, var(--phase4), #ff6b35); }
+
+  .cert-card:hover { border-color: rgba(0,229,255,0.25); }
+
+  .cert-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 12px;
+    gap: 12px;
+  }
+
+  .cert-level {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    padding: 3px 8px;
+    border-radius: 3px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    white-space: nowrap;
+  }
+
+  .cert-level.foundational { background: rgba(0,229,255,0.12); color: var(--accent); }
+  .cert-level.associate { background: rgba(127,255,107,0.12); color: var(--accent3); }
+  .cert-level.professional { background: rgba(255,107,53,0.12); color: var(--accent2); }
+
+  .cert-name {
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.3;
+    margin-bottom: 6px;
+  }
+
+  .cert-code {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--muted);
+    margin-bottom: 12px;
+  }
+
+  .cert-why {
+    font-size: 0.82rem;
+    color: var(--muted);
+    line-height: 1.6;
+    margin-bottom: 16px;
+  }
+
+  .cert-meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+  }
+
+  .cert-meta-item {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--muted);
+    display: flex;
+    gap: 4px;
+  }
+
+  .cert-meta-item span { color: var(--text); }
+
+  .cert-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 14px;
+    font-size: 0.75rem;
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(0,229,255,0.25);
+    padding-bottom: 2px;
+    font-family: 'Space Mono', monospace;
+  }
+
+  /* RESOURCES */
+  .res-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 24px;
+  }
+
+  .filter-btn {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.72rem;
+    padding: 6px 14px;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.15s;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .filter-btn:hover, .filter-btn.active {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(0,229,255,0.06);
+  }
+
+  .res-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+  }
+
+  .res-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px;
+    transition: border-color 0.2s, transform 0.2s;
+    position: relative;
+    animation: fadeUp 0.4s ease both;
+  }
+
+  .res-card:hover {
+    border-color: rgba(0,229,255,0.2);
+    transform: translateY(-2px);
+  }
+
+  .res-card.featured {
+    border-color: rgba(255,209,102,0.3);
+  }
+
+  .res-card.featured::after {
+    content: '⭐ TOP PICK';
+    position: absolute;
+    top: -1px; right: 12px;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--gold);
+    background: var(--bg);
+    padding: 0 6px;
+    letter-spacing: 1px;
+  }
+
+  .res-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+
+  .res-type-badge {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.62rem;
+    padding: 2px 7px;
+    border-radius: 3px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    flex-shrink: 0;
+  }
+
+  .type-course { background: rgba(0,229,255,0.1); color: var(--accent); }
+  .type-practice { background: rgba(255,107,53,0.1); color: var(--accent2); }
+  .type-free { background: rgba(127,255,107,0.1); color: var(--accent3); }
+  .type-official { background: rgba(199,125,255,0.1); color: var(--phase4); }
+  .type-cheatsheet { background: rgba(255,209,102,0.1); color: var(--gold); }
+
+  .cost-badge {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.62rem;
+    color: var(--muted);
+    background: rgba(255,255,255,0.04);
+    padding: 2px 6px;
+    border-radius: 3px;
+  }
+
+  .res-name {
+    font-size: 0.9rem;
+    font-weight: 700;
+    line-height: 1.3;
+    margin-bottom: 6px;
+  }
+
+  .res-desc {
+    font-size: 0.78rem;
+    color: var(--muted);
+    line-height: 1.5;
+    margin-bottom: 10px;
+  }
+
+  .res-link {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--accent);
+    text-decoration: none;
+    word-break: break-all;
+  }
+
+  .res-link:hover { text-decoration: underline; }
+
+  .hidden { display: none !important; }
+
+  /* FOOTER */
+  .footer {
+    margin-top: 80px;
+    padding: 40px 0;
+    border-top: 1px solid var(--border);
+    text-align: center;
+    color: var(--muted);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 1px;
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* NAV */
+  .sticky-nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(8,12,16,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 12px 0;
+  }
+
+  .nav-inner {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    overflow-x: auto;
+    padding: 0 24px;
+    max-width: 1100px;
+    margin: 0 auto;
+    scrollbar-width: none;
+  }
+
+  .nav-inner::-webkit-scrollbar { display: none; }
+
+  .nav-item {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--muted);
+    text-decoration: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    white-space: nowrap;
+    transition: all 0.15s;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .nav-item:hover {
+    color: var(--text);
+    background: rgba(255,255,255,0.04);
+  }
+
+  @media (max-width: 600px) {
+    .phase-card { padding-left: 48px; }
+    .phases::before { left: 16px; }
+    .phase-dot { left: 8px; }
+    .domain-name { min-width: 160px; font-size: 0.72rem; }
+    .cert-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="sticky-nav">
+  <div class="nav-inner">
+    <a href="#exam" class="nav-item">Exam Info</a>
+    <a href="#phases" class="nav-item">Study Plan</a>
+    <a href="#certs" class="nav-item">Certifications</a>
+    <a href="#resources" class="nav-item">Resources</a>
+  </div>
+</nav>
+
+<div class="container">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-badge">🧠 Cert Prep Plan &nbsp;·&nbsp; Mode B</div>
+    <h1>AWS <span>AI Practitioner</span><br>Roadmap</h1>
+    <p class="hero-sub">Tailored for a Java Full-Stack Engineer with AWS Cloud Practitioner ✓</p>
+    <div class="hero-meta">
+      <div class="meta-chip"><span class="label">Exam</span><span class="value">AIF-C01</span></div>
+      <div class="meta-chip"><span class="label">Weekly Time</span><span class="value">1–3 hrs</span></div>
+      <div class="meta-chip"><span class="label">Timeline</span><span class="value">~3 Months</span></div>
+      <div class="meta-chip"><span class="label">Style</span><span class="value">Mix of Everything</span></div>
+      <div class="meta-chip"><span class="label">Goal</span><span class="value">AI-Augmented Dev</span></div>
+    </div>
+  </div>
+
+  <!-- EXAM INFO -->
+  <section id="exam">
+    <div class="section-header">
+      <div class="section-line"></div>
+      <div class="section-label">Exam Details</div>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="exam-grid">
+      <div class="exam-card" style="animation-delay:0s">
+        <div class="ec-icon">📝</div>
+        <div class="ec-val">65</div>
+        <div class="ec-lbl">Questions</div>
+      </div>
+      <div class="exam-card" style="animation-delay:0.05s">
+        <div class="ec-icon">⏱️</div>
+        <div class="ec-val">90 min</div>
+        <div class="ec-lbl">Duration</div>
+      </div>
+      <div class="exam-card" style="animation-delay:0.1s">
+        <div class="ec-icon">🎯</div>
+        <div class="ec-val">700/1000</div>
+        <div class="ec-lbl">Passing Score</div>
+      </div>
+      <div class="exam-card" style="animation-delay:0.15s">
+        <div class="ec-icon">💰</div>
+        <div class="ec-val">$100</div>
+        <div class="ec-lbl">Exam Cost</div>
+      </div>
+      <div class="exam-card" style="animation-delay:0.2s">
+        <div class="ec-icon">📅</div>
+        <div class="ec-val">3 Years</div>
+        <div class="ec-lbl">Validity</div>
+      </div>
+      <div class="exam-card" style="animation-delay:0.25s">
+        <div class="ec-icon">🔠</div>
+        <div class="ec-val">MCQ + Multi</div>
+        <div class="ec-lbl">Format</div>
+      </div>
+    </div>
+
+    <div class="domains">
+      <h3>Exam Domain Breakdown</h3>
+      <div class="domain-row">
+        <div class="domain-name">D3 · Applications of Foundation Models</div>
+        <div class="domain-bar-wrap"><div class="domain-bar" style="background:var(--accent2)" data-width="28"></div></div>
+        <div class="domain-pct">28%</div>
+      </div>
+      <div class="domain-row">
+        <div class="domain-name">D2 · Fundamentals of Generative AI</div>
+        <div class="domain-bar-wrap"><div class="domain-bar" style="background:var(--accent)" data-width="24"></div></div>
+        <div class="domain-pct">24%</div>
+      </div>
+      <div class="domain-row">
+        <div class="domain-name">D1 · Fundamentals of AI and ML</div>
+        <div class="domain-bar-wrap"><div class="domain-bar" style="background:var(--accent3)" data-width="20"></div></div>
+        <div class="domain-pct">20%</div>
+      </div>
+      <div class="domain-row">
+        <div class="domain-name">D4 · Guidelines for Responsible AI</div>
+        <div class="domain-bar-wrap"><div class="domain-bar" style="background:var(--phase4)" data-width="14"></div></div>
+        <div class="domain-pct">14%</div>
+      </div>
+      <div class="domain-row">
+        <div class="domain-name">D5 · Security, Compliance &amp; Governance</div>
+        <div class="domain-bar-wrap"><div class="domain-bar" style="background:var(--gold)" data-width="14"></div></div>
+        <div class="domain-pct">14%</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STUDY PHASES -->
+  <section id="phases">
+    <div class="section-header">
+      <div class="section-line"></div>
+      <div class="section-label">Study Plan</div>
+      <div class="section-line"></div>
+    </div>
+    <div class="section-title" style="margin-bottom:32px">Your 3-Month Study Plan</div>
+
+    <div class="phases">
+
+      <!-- Phase 1 -->
+      <div class="phase-card" style="animation-delay:0s">
+        <div class="phase-dot" style="color:var(--phase1)"></div>
+        <div class="phase-inner">
+          <div class="phase-top">
+            <div>
+              <div class="phase-num">Phase 01</div>
+              <div class="phase-title" style="color:var(--phase1)">AI &amp; ML Foundations</div>
+            </div>
+            <div class="phase-dur" style="color:var(--phase1)">Weeks 1–3 · ~3 hrs/wk</div>
+          </div>
+          <p class="phase-desc">Build the conceptual vocabulary the exam expects. As a Java dev, you'll grasp these quickly. Focus on understanding what the services do — not how to build them. Covers Domain 1 (20%) fully.</p>
+          <div class="topics-wrap">
+            <span class="topic-pill">AI vs ML vs Deep Learning</span>
+            <span class="topic-pill">Supervised / Unsupervised / Reinforcement</span>
+            <span class="topic-pill">Neural Networks basics</span>
+            <span class="topic-pill">Training vs Inference</span>
+            <span class="topic-pill">SageMaker overview</span>
+            <span class="topic-pill">Amazon Rekognition</span>
+            <span class="topic-pill">Comprehend + Transcribe</span>
+            <span class="topic-pill">Bias &amp; variance</span>
+          </div>
+          <div class="phase-milestone">
+            🎯 Milestone: Score 75%+ on a Domain 1 section test (Tutorials Dojo)
+          </div>
+          <label class="phase-check" onclick="toggleCheck(this, 'p1')">
+            <div class="checkbox" id="p1">✓</div>
+            <span class="check-label">Mark Phase 1 as complete</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Phase 2 -->
+      <div class="phase-card" style="animation-delay:0.1s">
+        <div class="phase-dot" style="color:var(--phase2)"></div>
+        <div class="phase-inner">
+          <div class="phase-top">
+            <div>
+              <div class="phase-num">Phase 02</div>
+              <div class="phase-title" style="color:var(--phase2)">Generative AI &amp; Foundation Models</div>
+            </div>
+            <div class="phase-dur" style="color:var(--phase2)">Weeks 4–7 · ~3 hrs/wk</div>
+          </div>
+          <p class="phase-desc">The highest-weighted section of the exam (52% combined). Dive into GenAI concepts, prompt engineering, Amazon Bedrock, and how Foundation Models are applied. This is also where your Java dev career gets exciting — you'll learn to call Bedrock APIs.</p>
+          <div class="topics-wrap">
+            <span class="topic-pill">LLMs &amp; Foundation Models</span>
+            <span class="topic-pill">Prompt Engineering</span>
+            <span class="topic-pill">Amazon Bedrock</span>
+            <span class="topic-pill">Bedrock Knowledge Bases</span>
+            <span class="topic-pill">RAG (Retrieval Augmented Generation)</span>
+            <span class="topic-pill">Amazon Q</span>
+            <span class="topic-pill">Fine-tuning vs RAG tradeoffs</span>
+            <span class="topic-pill">Agents for Bedrock</span>
+            <span class="topic-pill">Token limits &amp; cost</span>
+          </div>
+          <div class="phase-milestone">
+            🎯 Milestone: Build a simple Bedrock API call in Java (free tier) + score 75%+ on Domains 2 &amp; 3
+          </div>
+          <label class="phase-check" onclick="toggleCheck(this, 'p2')">
+            <div class="checkbox" id="p2">✓</div>
+            <span class="check-label">Mark Phase 2 as complete</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Phase 3 -->
+      <div class="phase-card" style="animation-delay:0.2s">
+        <div class="phase-dot" style="color:var(--phase3)"></div>
+        <div class="phase-inner">
+          <div class="phase-top">
+            <div>
+              <div class="phase-num">Phase 03</div>
+              <div class="phase-title" style="color:var(--phase3)">Responsible AI &amp; Governance</div>
+            </div>
+            <div class="phase-dur" style="color:var(--phase3)">Weeks 8–9 · ~2 hrs/wk</div>
+          </div>
+          <p class="phase-desc">Covers Domains 4 &amp; 5 (28% combined). Often underestimated — exam questions here are scenario-based and need clear thinking. Lighter than earlier phases but important for the score.</p>
+          <div class="topics-wrap">
+            <span class="topic-pill">Fairness &amp; Bias in AI</span>
+            <span class="topic-pill">Explainability (SageMaker Clarify)</span>
+            <span class="topic-pill">Transparency &amp; Accountability</span>
+            <span class="topic-pill">AWS AI Service Cards</span>
+            <span class="topic-pill">IAM for AI workloads</span>
+            <span class="topic-pill">VPC &amp; data encryption for AI</span>
+            <span class="topic-pill">Compliance frameworks</span>
+            <span class="topic-pill">Model monitoring</span>
+          </div>
+          <div class="phase-milestone">
+            🎯 Milestone: Read the AWS Responsible AI whitepaper + score 75%+ on Domains 4 &amp; 5
+          </div>
+          <label class="phase-check" onclick="toggleCheck(this, 'p3')">
+            <div class="checkbox" id="p3">✓</div>
+            <span class="check-label">Mark Phase 3 as complete</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Phase 4 -->
+      <div class="phase-card" style="animation-delay:0.3s">
+        <div class="phase-dot" style="color:var(--phase4)"></div>
+        <div class="phase-inner">
+          <div class="phase-top">
+            <div>
+              <div class="phase-num">Phase 04</div>
+              <div class="phase-title" style="color:var(--phase4)">Full Exam Simulation &amp; Final Review</div>
+            </div>
+            <div class="phase-dur" style="color:var(--phase4)">Weeks 10–12 · ~3 hrs/wk</div>
+          </div>
+          <p class="phase-desc">Consolidate everything with timed full-length mock exams. Analyse wrong answers, revisit weak domains, and do a final speed-read of the AWS exam guide cheat sheet before booking your slot.</p>
+          <div class="topics-wrap">
+            <span class="topic-pill">Full mock exams (timed)</span>
+            <span class="topic-pill">Wrong-answer analysis</span>
+            <span class="topic-pill">Weak domain re-study</span>
+            <span class="topic-pill">AWS Exam Guide re-read</span>
+            <span class="topic-pill">Flash card blitz</span>
+            <span class="topic-pill">Exam logistics prep</span>
+          </div>
+          <div class="phase-milestone">
+            🎯 Milestone: Achieve 80%+ on two consecutive full-length mocks, then book the exam
+          </div>
+          <label class="phase-check" onclick="toggleCheck(this, 'p4')">
+            <div class="checkbox" id="p4">✓</div>
+            <span class="check-label">Mark Phase 4 as complete</span>
+          </label>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CERTIFICATIONS -->
+  <section id="certs">
+    <div class="section-header">
+      <div class="section-line"></div>
+      <div class="section-label">Certifications</div>
+      <div class="section-line"></div>
+    </div>
+    <div class="section-title" style="margin-bottom:32px">Your Certification Path</div>
+
+    <div class="cert-grid">
+
+      <div class="cert-card primary">
+        <div class="cert-header">
+          <div>
+            <div class="cert-name">AWS Certified AI Practitioner</div>
+            <div class="cert-code">AIF-C01 · Your Current Target</div>
+          </div>
+          <div class="cert-level foundational">Foundational</div>
+        </div>
+        <p class="cert-why">Validates AI/ML &amp; GenAI knowledge on AWS. Perfect next step after Cloud Practitioner and highly relevant for a Java dev wanting to build AI-powered applications with Bedrock &amp; Amazon Q.</p>
+        <div class="cert-meta-row">
+          <div class="cert-meta-item">Cost: <span>$100</span></div>
+          <div class="cert-meta-item">·</div>
+          <div class="cert-meta-item">65 Qs / 90 min</div>
+          <div class="cert-meta-item">·</div>
+          <div class="cert-meta-item">Pass: <span>700/1000</span></div>
+          <div class="cert-meta-item">·</div>
+          <div class="cert-meta-item">Valid: <span>3 yrs</span></div>
+        </div>
+        <a href="https://aws.amazon.com/certification/certified-ai-practitioner/" target="_blank" class="cert-link">Official page →</a>
+      </div>
+
+      <div class="cert-card secondary">
+        <div class="cert-header">
+          <div>
+            <div class="cert-name">AWS Certified Developer – Associate</div>
+            <div class="cert-code">DVA-C02 · Recommended Next Cert</div>
+          </div>
+          <div class="cert-level associate">Associate</div>
+        </div>
+        <p class="cert-why">Natural next cert for a Java full-stack engineer. Covers Lambda, API Gateway, DynamoDB, CodePipeline and how to build &amp; deploy apps on AWS — all things you'll use when integrating AI into your Java services.</p>
+        <div class="cert-meta-row">
+          <div class="cert-meta-item">Cost: <span>$150</span></div>
+          <div class="cert-meta-item">·</div>
+          <div class="cert-meta-item">65 Qs / 130 min</div>
+          <div class="cert-meta-item">·</div>
+          <div class="cert-meta-item">Pass: <span>720/1000</span></div>
+        </div>
+        <a href="https://aws.amazon.com/certification/certified-developer-associate/" target="_blank" class="cert-link">Official page →</a>
+      </div>
+
+      <div class="cert-card future">
+        <div class="cert-header">
+          <div>
+            <div class="cert-name">AWS Certified Generative AI Developer – Professional</div>
+            <div class="cert-code">GAI-C01 · Future Stretch Goal</div>
+          </div>
+          <div class="cert-level professional">Professional</div>
+        </div>
+        <p class="cert-why">New in 2025/2026. Focuses on building GenAI applications with Bedrock, RAG patterns, agentic AI, and MLOps. The "developer" framing makes it ideal for your Java engineering background once you have hands-on experience.</p>
+        <div class="cert-meta-row">
+          <div class="cert-meta-item">Cost: <span>~$300</span></div>
+          <div class="cert-meta-item">·</div>
+          <div class="cert-meta-item">Beta / Emerging</div>
+        </div>
+        <a href="https://aws.amazon.com/certification/" target="_blank" class="cert-link">AWS Certifications →</a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- RESOURCES -->
+  <section id="resources">
+    <div class="section-header">
+      <div class="section-line"></div>
+      <div class="section-label">Resources</div>
+      <div class="section-line"></div>
+    </div>
+    <div class="section-title" style="margin-bottom:24px">Curated Resource Library</div>
+
+    <div class="res-filters">
+      <button class="filter-btn active" onclick="filterRes('all', this)">All</button>
+      <button class="filter-btn" onclick="filterRes('course', this)">Courses</button>
+      <button class="filter-btn" onclick="filterRes('practice', this)">Practice Exams</button>
+      <button class="filter-btn" onclick="filterRes('free', this)">Free</button>
+      <button class="filter-btn" onclick="filterRes('official', this)">Official</button>
+      <button class="filter-btn" onclick="filterRes('cheatsheet', this)">Quick Ref</button>
+    </div>
+
+    <div class="res-grid" id="resGrid">
+
+      <div class="res-card featured" data-type="course">
+        <div class="res-top">
+          <span class="res-type-badge type-course">Course</span>
+          <span class="cost-badge">~$20</span>
+        </div>
+        <div class="res-name">Ultimate AWS Certified AI Practitioner AIF-C01 – Stephane Maarek</div>
+        <div class="res-desc">The #1 community-recommended course. Rated 4.7★ from 43K+ students. Covers every exam domain with hands-on demos. Start here.</div>
+        <a href="https://www.udemy.com/course/aws-ai-practitioner-certified/" target="_blank" class="res-link">udemy.com →</a>
+      </div>
+
+      <div class="res-card featured" data-type="practice">
+        <div class="res-top">
+          <span class="res-type-badge type-practice">Practice Exam</span>
+          <span class="cost-badge">Paid</span>
+        </div>
+        <div class="res-name">Tutorials Dojo AIF-C01 Practice Exams</div>
+        <div class="res-desc">Best practice question bank for this cert. Includes timed, review, and section-based modes. Detailed explanations + flashcards. Use in Phase 4.</div>
+        <a href="https://portal.tutorialsdojo.com/courses/aws-certified-ai-practitioner-aif-c01-practice-exams/" target="_blank" class="res-link">tutorialsdojo.com →</a>
+      </div>
+
+      <div class="res-card featured" data-type="free">
+        <div class="res-top">
+          <span class="res-type-badge type-free">Free</span>
+          <span class="cost-badge">Free</span>
+        </div>
+        <div class="res-name">AWS Skill Builder – Exam Prep Standard Plan (AIF-C01)</div>
+        <div class="res-desc">Official free prep from AWS. Covers all 5 domains with exam-style questions, explanations, and a pre-test. Use this alongside Maarek's course.</div>
+        <a href="https://skillbuilder.aws/learn/2CCE3UG5MF/exam-prep-aws-certified-ai-practitioner-aifc01/KH5Y7CQCVP" target="_blank" class="res-link">skillbuilder.aws →</a>
+      </div>
+
+      <div class="res-card featured" data-type="official">
+        <div class="res-top">
+          <span class="res-type-badge type-official">Official</span>
+          <span class="cost-badge">Free</span>
+        </div>
+        <div class="res-name">AWS Official AIF-C01 Exam Guide</div>
+        <div class="res-desc">Read this first — it defines every domain, task statement, and in-scope AWS service. Your north star for study scope. Bookmark it.</div>
+        <a href="https://docs.aws.amazon.com/aws-certification/latest/examguides/ai-practitioner-01.html" target="_blank" class="res-link">docs.aws.amazon.com →</a>
+      </div>
+
+      <div class="res-card" data-type="course">
+        <div class="res-top">
+          <span class="res-type-badge type-course">Course</span>
+          <span class="cost-badge">~$20</span>
+        </div>
+        <div class="res-name">Mastering AWS AI Practitioner AIF-C01 – Frank Kane (Hands-On!)</div>
+        <div class="res-desc">Great hands-on alternative by Frank Kane (ex-Amazon ML). Especially good for Phase 2 (Bedrock + GenAI). Can pair with Maarek or use standalone.</div>
+        <a href="https://www.sundog-education.com/" target="_blank" class="res-link">sundog-education.com →</a>
+      </div>
+
+      <div class="res-card" data-type="practice">
+        <div class="res-top">
+          <span class="res-type-badge type-practice">Practice Exam</span>
+          <span class="cost-badge">Paid</span>
+        </div>
+        <div class="res-name">Whizlabs AIF-C01 Practice Tests</div>
+        <div class="res-desc">Good secondary practice resource with 130+ questions across 2 full tests. Use alongside Tutorials Dojo to get varied question styles.</div>
+        <a href="https://www.whizlabs.com/" target="_blank" class="res-link">whizlabs.com →</a>
+      </div>
+
+      <div class="res-card" data-type="free">
+        <div class="res-top">
+          <span class="res-type-badge type-free">Free</span>
+          <span class="cost-badge">Free</span>
+        </div>
+        <div class="res-name">AWS Official Pre-Test (Skill Builder)</div>
+        <div class="res-desc">Free official sample questions from AWS. Great for a baseline assessment at the start of Phase 1 to identify your weak areas.</div>
+        <a href="https://skillbuilder.aws/learn/W84113F8EE/official-pretest-aws-certified-ai-practitioner--aifc01--english/XWVNE9Z36F" target="_blank" class="res-link">skillbuilder.aws →</a>
+      </div>
+
+      <div class="res-card" data-type="official">
+        <div class="res-top">
+          <span class="res-type-badge type-official">Official</span>
+          <span class="cost-badge">Free</span>
+        </div>
+        <div class="res-name">Amazon Bedrock Developer Guide</div>
+        <div class="res-desc">Read the Bedrock docs for Phase 2. Understanding how Bedrock actually works (APIs, model providers, guardrails) gives an edge on Foundation Model questions.</div>
+        <a href="https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-bedrock.html" target="_blank" class="res-link">docs.aws.amazon.com →</a>
+      </div>
+
+      <div class="res-card featured" data-type="cheatsheet">
+        <div class="res-top">
+          <span class="res-type-badge type-cheatsheet">Quick Ref</span>
+          <span class="cost-badge">Free</span>
+        </div>
+        <div class="res-name">Tutorials Dojo AIF-C01 Cheat Sheet</div>
+        <div class="res-desc">Best final-week cram resource. Compact summaries of all AWS AI services, key terms, and domain highlights. Read 2–3 days before your exam.</div>
+        <a href="https://tutorialsdojo.com/aws-certified-ai-practitioner-aif-c01-exam-guide/" target="_blank" class="res-link">tutorialsdojo.com →</a>
+      </div>
+
+      <div class="res-card" data-type="free">
+        <div class="res-top">
+          <span class="res-type-badge type-free">Free</span>
+          <span class="cost-badge">Free</span>
+        </div>
+        <div class="res-name">AWS Responsible AI Whitepaper</div>
+        <div class="res-desc">Essential reading for Domains 4 &amp; 5 (28% combined). Read once in Phase 3. AWS perspective on fairness, explainability, and governance.</div>
+        <a href="https://aws.amazon.com/machine-learning/responsible-machine-learning/" target="_blank" class="res-link">aws.amazon.com →</a>
+      </div>
+
+    </div>
+  </section>
+
+</div>
+
+<div class="footer">
+  AWS Certified AI Practitioner · AIF-C01 · Generated April 2026 · For a Java Full-Stack Engineer
+</div>
+
+<script>
+  // Animate domain bars on load
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      document.querySelectorAll('.domain-bar').forEach(bar => {
+        const w = bar.dataset.width;
+        bar.style.width = w + '%';
+      });
+    }, 400);
+  });
+
+  // Resource filter
+  function filterRes(type, btn) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.res-card').forEach(card => {
+      if (type === 'all' || card.dataset.type === type) {
+        card.classList.remove('hidden');
+      } else {
+        card.classList.add('hidden');
+      }
+    });
+  }
+
+  // Phase checkboxes with localStorage
+  function toggleCheck(label, id) {
+    const box = document.getElementById(id);
+    const isDone = box.classList.toggle('done');
+    localStorage.setItem('phase_' + id, isDone ? '1' : '0');
+  }
+
+  // Restore checkbox states
+  ['p1','p2','p3','p4'].forEach(id => {
+    if (localStorage.getItem('phase_' + id) === '1') {
+      document.getElementById(id)?.classList.add('done');
+    }
+  });
+</script>
+</body>
+</html>
