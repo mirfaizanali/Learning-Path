@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Faizanali — Learning Paths</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #f5f2eb;
+  --ink: #0f0e0c;
+  --muted: #7a7469;
+  --card-bg: #ffffff;
+  --card-hover: #faf8f3;
+  --border: #e0dbd0;
+  --aws: #FF9900;
+  --claude: #6C5CE7;
+  --java: #E84040;
+  --tag-bg: #ede9df;
+  --toggle-bg: #e0dbd0;
+}
+
+[data-theme="dark"] {
+  --bg: #0f0e0c;
+  --ink: #f0ede6;
+  --muted: #6b6860;
+  --card-bg: #1a1916;
+  --card-hover: #222018;
+  --border: #2a2824;
+  --tag-bg: #252320;
+  --toggle-bg: #2a2824;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'DM Sans', sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Grain overlay */
+body::after {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none; z-index: 100;
+}
+
+/* Header */
+header {
+  padding: 64px 60px 0;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.eyebrow {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px; font-weight: 500;
+  letter-spacing: 3px; text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 20px;
+  display: flex; align-items: center; gap: 10px;
+}
+.eyebrow::before {
+  content: '';
+  display: inline-block; width: 28px; height: 1px;
+  background: var(--muted);
+}
+
+h1 {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(48px, 8vw, 96px);
+  font-weight: 800;
+  line-height: 0.95;
+  letter-spacing: -3px;
+  color: var(--ink);
+  margin-bottom: 28px;
+}
+
+h1 span {
+  display: block;
+  color: transparent;
+  -webkit-text-stroke: 2px var(--ink);
+}
+
+.subtitle {
+  font-size: 16px; font-weight: 300;
+  color: var(--muted); max-width: 440px;
+  line-height: 1.7; margin-bottom: 56px;
+}
+
+/* Divider */
+.divider {
+  border: none; border-top: 1px solid var(--border);
+  max-width: 1100px; margin: 0 auto 64px;
+}
+
+/* Cards grid */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 2px;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 60px;
+  border: 1px solid var(--border);
+}
+
+.card {
+  background: var(--card-bg);
+  border: 1px solid transparent;
+  padding: 40px 36px;
+  text-decoration: none;
+  color: inherit;
+  display: flex; flex-direction: column;
+  gap: 20px;
+  position: relative;
+  overflow: hidden;
+  transition: background 0.3s ease, transform 0.3s ease;
+  cursor: pointer;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 3px;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s cubic-bezier(0.16,1,0.3,1);
+}
+
+.card.aws::before  { background: var(--aws); }
+.card.claude::before { background: var(--claude); }
+.card.java::before { background: var(--java); }
+
+.card:hover { background: var(--card-hover); transform: translateY(-2px); }
+.card:hover::before { transform: scaleX(1); }
+
+.card-num {
+  font-family: 'Syne', sans-serif;
+  font-size: 11px; font-weight: 700;
+  letter-spacing: 2px; text-transform: uppercase;
+  color: var(--muted);
+}
+
+.card-icon {
+  width: 52px; height: 52px; border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 24px;
+  flex-shrink: 0;
+}
+.card.aws    .card-icon { background: rgba(255,153,0,0.1); }
+.card.claude .card-icon { background: rgba(108,92,231,0.1); }
+.card.java   .card-icon { background: rgba(232,64,64,0.1); }
+
+.card h2 {
+  font-family: 'Syne', sans-serif;
+  font-size: 22px; font-weight: 700;
+  line-height: 1.2; letter-spacing: -0.5px;
+}
+
+.card p {
+  font-size: 14px; font-weight: 300;
+  color: var(--muted); line-height: 1.7;
+  flex: 1;
+}
+
+.tags { display: flex; flex-wrap: wrap; gap: 8px; }
+.tag {
+  background: var(--tag-bg);
+  border-radius: 30px; padding: 4px 12px;
+  font-size: 11px; font-weight: 500;
+  color: var(--muted); letter-spacing: 0.3px;
+}
+
+.card-arrow {
+  font-size: 20px;
+  color: var(--muted);
+  align-self: flex-end;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+.card:hover .card-arrow { transform: translate(4px, -4px); color: var(--ink); }
+
+/* Status dot */
+.status {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 11px; font-weight: 500; color: var(--muted);
+}
+.dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  animation: pulse 2s ease infinite;
+}
+.dot.active { background: #22c55e; }
+.dot.progress { background: #f59e0b; }
+.dot.planned { background: #94a3b8; animation: none; }
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.8); }
+}
+
+/* Footer */
+footer {
+  max-width: 1100px; margin: 64px auto 0;
+  padding: 32px 60px;
+  border-top: 1px solid var(--border);
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 16px;
+}
+footer p { font-size: 13px; color: var(--muted); }
+footer a { color: var(--ink); font-weight: 500; text-decoration: none; }
+footer a:hover { text-decoration: underline; }
+
+/* Animations */
+.card {
+  animation: cardIn 0.6s ease both;
+}
+.card:nth-child(1) { animation-delay: 0.1s; }
+.card:nth-child(2) { animation-delay: 0.2s; }
+.card:nth-child(3) { animation-delay: 0.3s; }
+
+@keyframes cardIn {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+header, .divider {
+  animation: fadeIn 0.5s ease both;
+}
+@keyframes fadeIn {
+  from { opacity: 0; } to { opacity: 1; }
+}
+
+/* Theme toggle */
+.theme-toggle {
+  position: fixed; top: 24px; right: 24px; z-index: 99;
+  background: var(--toggle-bg);
+  border: 1px solid var(--border);
+  border-radius: 50px;
+  padding: 8px 16px;
+  cursor: pointer;
+  display: flex; align-items: center; gap: 8px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px; font-weight: 500;
+  color: var(--muted);
+  transition: all 0.2s ease;
+}
+.theme-toggle:hover { color: var(--ink); border-color: var(--ink); }
+.theme-toggle .icon { font-size: 14px; transition: transform 0.4s ease; }
+.theme-toggle:hover .icon { transform: rotate(20deg); }
+
+/* Responsive */
+@media (max-width: 700px) {
+  header { padding: 40px 24px 0; }
+  .grid { padding: 0 24px; grid-template-columns: 1fr; }
+  footer { padding: 32px 24px; }
+  h1 { letter-spacing: -2px; }
+}
+</style>
+</head>
+<body>
+
+<button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">
+  <span class="icon">🌙</span><span id="themeLabel">Dark</span>
+</button>
+
+<header>
+  <div class="eyebrow">mir faizanali · learning hub</div>
+  <h1>Learning<span>Paths.</span></h1>
+  <p class="subtitle">A personal collection of certification roadmaps and structured study plans — built to grow.</p>
+</header>
+
+<hr class="divider"/>
+
+<div class="grid">
+
+  <!-- Card 1: AWS -->
+  <a class="card aws" href="AWS Cloud Practioner/aws_ccp_roadmap_v2.html">
+    <div class="card-num">01 — Cloud</div>
+    <div class="card-icon">☁️</div>
+    <h2>AWS Cloud Practitioner</h2>
+    <p>Foundational AWS cloud certification. Covers core services, billing, security, and cloud concepts for the CLF-C02 exam.</p>
+    <div class="tags">
+      <span class="tag">AWS</span>
+      <span class="tag">CLF-C02</span>
+      <span class="tag">Foundational</span>
+      <span class="tag">~$100</span>
+    </div>
+    <div class="status"><span class="dot progress"></span> In Progress</div>
+    <div class="card-arrow">↗</div>
+  </a>
+
+  <!-- Card 2: Claude -->
+  <a class="card claude" href="Claude Certified Architect Exam/CCA_F_Roadmap.html">
+    <div class="card-num">02 — AI</div>
+    <div class="card-icon">🤖</div>
+    <h2>Claude Certified Architect</h2>
+    <p>Anthropic's CCA-F certification for building production AI systems with Claude. Covers agents, MCP, prompt engineering, and RAG.</p>
+    <div class="tags">
+      <span class="tag">Anthropic</span>
+      <span class="tag">CCA-F</span>
+      <span class="tag">Advanced</span>
+      <span class="tag">$99</span>
+    </div>
+    <div class="status"><span class="dot active"></span> Active Study</div>
+    <div class="card-arrow">↗</div>
+  </a>
+
+  <!-- Card 3: Java -->
+  <a class="card java" href="Java Full stack/java-full-stack.html.html">
+    <div class="card-num">03 — Development</div>
+    <div class="card-icon">☕</div>
+    <h2>Java Full Stack</h2>
+    <p>End-to-end Java development with Spring Boot, Angular, and AI integration. From backend APIs to production-ready frontends.</p>
+    <div class="tags">
+      <span class="tag">Java</span>
+      <span class="tag">Spring Boot</span>
+      <span class="tag">Angular</span>
+      <span class="tag">Full Stack</span>
+    </div>
+    <div class="status"><span class="dot planned"></span> Planned</div>
+    <div class="card-arrow">↗</div>
+  </a>
+
+</div>
+
+<footer>
+  <p>Last updated April 2026 · <a href="https://github.com/mirfaizanali/Learning-Path" target="_blank">View on GitHub</a></p>
+  <p>3 paths · Growing over time</p>
+</footer>
+
+<script>
+  const root = document.documentElement;
+  const btn = document.getElementById('themeBtn');
+  const label = document.getElementById('themeLabel');
+
+  // Check saved preference
+  const saved = localStorage.getItem('theme') || 'light';
+  if (saved === 'dark') applyDark();
+
+  function applyDark() {
+    root.setAttribute('data-theme', 'dark');
+    btn.querySelector('.icon').textContent = '☀️';
+    label.textContent = 'Light';
+  }
+  function applyLight() {
+    root.removeAttribute('data-theme');
+    btn.querySelector('.icon').textContent = '🌙';
+    label.textContent = 'Dark';
+  }
+
+  function toggleTheme() {
+    const isDark = root.getAttribute('data-theme') === 'dark';
+    if (isDark) { applyLight(); localStorage.setItem('theme','light'); }
+    else        { applyDark();  localStorage.setItem('theme','dark');  }
+  }
+</script>
+</body>
+</html>
