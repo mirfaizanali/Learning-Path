@@ -1,0 +1,1231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AWS Cloud Practitioner Sprint Roadmap</title>
+<link href="https://fonts.googleapis.com/css2?family=Amazon+Ember:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d1117;
+    --bg2: #161b22;
+    --bg3: #1c2128;
+    --squid: #232F3E;
+    --orange: #FF9900;
+    --orange-soft: #FFB347;
+    --blue: #146EB4;
+    --teal: #01A88D;
+    --line: #30363d;
+    --text: #e6edf3;
+    --muted: #8b949e;
+    --dim: #6e7681;
+    --success: #3fb950;
+    --danger: #f85149;
+    --card: #161b22;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Space Grotesk', 'Amazon Ember', system-ui, sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+
+  /* subtle cloud-like background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(circle at 20% 0%, rgba(255,153,0,0.06) 0%, transparent 40%),
+      radial-gradient(circle at 80% 100%, rgba(20,110,180,0.06) 0%, transparent 40%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+
+  /* ── HEADER ─────────────────────────────────────────────────────── */
+  header {
+    padding: 56px 0 32px;
+    border-bottom: 1px solid var(--line);
+    animation: fadeDown 0.6s ease both;
+  }
+
+  .crumb {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--orange);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    background: rgba(255,153,0,0.08);
+    border: 1px solid rgba(255,153,0,0.2);
+    border-radius: 3px;
+    margin-bottom: 20px;
+  }
+
+  .crumb::before {
+    content: '';
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--orange);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(1.3); }
+  }
+
+  h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(32px, 5.5vw, 56px);
+    font-weight: 700;
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+    color: #fff;
+    margin-bottom: 10px;
+  }
+  h1 span { color: var(--orange); }
+
+  .tagline {
+    font-family: 'IBM Plex Mono', monospace;
+    color: var(--muted);
+    font-size: 13px;
+    margin-top: 6px;
+  }
+
+  .meta-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px;
+    margin-top: 28px;
+  }
+
+  .meta-card {
+    background: var(--bg2);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 12px 14px;
+  }
+
+  .meta-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 3px;
+  }
+
+  .meta-value {
+    font-size: 15px;
+    font-weight: 600;
+    color: #fff;
+  }
+
+  /* ── PROGRESS ─────────────────────────────────────────────────── */
+  .progress-wrap {
+    padding: 28px 0;
+    border-bottom: 1px solid var(--line);
+    animation: fadeDown 0.6s 0.1s ease both;
+  }
+
+  .progress-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  .progress-num { color: var(--orange); font-weight: 600; }
+
+  .progress-track {
+    height: 4px;
+    background: var(--line);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--orange), var(--teal));
+    width: 0%;
+    transition: width 1s cubic-bezier(0.4,0,0.2,1);
+  }
+
+  /* ── TABS ─────────────────────────────────────────────────────── */
+  .tabs {
+    display: flex;
+    gap: 4px;
+    padding: 24px 0 0;
+    border-bottom: 1px solid var(--line);
+    flex-wrap: wrap;
+    animation: fadeDown 0.6s 0.15s ease both;
+  }
+
+  .tab {
+    padding: 10px 20px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-bottom: -1px;
+    font-weight: 500;
+  }
+  .tab:hover { color: var(--text); }
+  .tab.active { color: var(--orange); border-bottom-color: var(--orange); }
+
+  /* ── PANELS ────────────────────────────────────────────────────── */
+  .panel { display: none; padding: 40px 0; animation: fadeIn 0.3s ease; }
+  .panel.active { display: block; }
+
+  .section-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--orange);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .section-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 8px;
+    letter-spacing: -0.01em;
+  }
+
+  .section-desc {
+    color: var(--muted);
+    font-size: 13px;
+    margin-bottom: 28px;
+    max-width: 640px;
+  }
+
+  /* ── ROADMAP TIMELINE ─────────────────────────────────────────── */
+  .timeline { position: relative; padding-left: 42px; }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 13px;
+    top: 8px; bottom: 8px;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--orange), var(--blue), var(--teal));
+    opacity: 0.3;
+  }
+
+  .week-card {
+    position: relative;
+    margin-bottom: 28px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 24px;
+    transition: border-color 0.3s, transform 0.3s;
+    animation: slideIn 0.5s ease both;
+  }
+
+  .week-card:hover {
+    border-color: var(--orange);
+    transform: translateX(3px);
+  }
+
+  .week-card.done {
+    border-color: var(--success);
+    background: rgba(63,185,80,0.04);
+  }
+
+  .week-card::before {
+    content: attr(data-num);
+    position: absolute;
+    left: -34px;
+    top: 22px;
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    background: var(--bg);
+    border: 2px solid var(--orange);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--orange);
+    transition: all 0.3s;
+  }
+
+  .week-card.done::before {
+    background: var(--success);
+    border-color: var(--success);
+    color: #fff;
+    content: '✓';
+  }
+
+  .week-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+  }
+
+  .week-meta {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--orange);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    opacity: 0.85;
+    margin-bottom: 4px;
+  }
+
+  .week-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: -0.01em;
+  }
+
+  .domain-weight {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    padding: 4px 10px;
+    background: rgba(255,153,0,0.1);
+    color: var(--orange);
+    border-radius: 3px;
+    border: 1px solid rgba(255,153,0,0.2);
+  }
+
+  .week-body h4 {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    margin-top: 14px;
+    font-weight: 500;
+  }
+
+  .topic-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .topic-pill {
+    font-size: 11px;
+    padding: 4px 10px;
+    background: var(--bg3);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    color: var(--text);
+    transition: all 0.2s;
+  }
+  .topic-pill:hover { border-color: var(--orange); color: var(--orange); }
+
+  .services-list {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: var(--orange-soft);
+    background: rgba(255,153,0,0.05);
+    padding: 10px 14px;
+    border-radius: 5px;
+    border-left: 2px solid var(--orange);
+    margin-top: 4px;
+  }
+
+  .milestone {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 12px 14px;
+    background: rgba(1,168,141,0.05);
+    border: 1px solid rgba(1,168,141,0.2);
+    border-radius: 5px;
+    margin-top: 14px;
+    color: var(--teal);
+    font-size: 13px;
+  }
+  .milestone strong { color: var(--text); }
+
+  .week-footer {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-top: 18px;
+    padding-top: 14px;
+    border-top: 1px solid var(--line);
+    flex-wrap: wrap;
+  }
+
+  .target-score {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+  }
+  .target-score b { color: var(--orange); font-weight: 600; }
+
+  .done-btn {
+    margin-left: auto;
+    padding: 6px 18px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border-radius: 3px;
+    border: 1px solid var(--line);
+    background: none;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.2s;
+    font-weight: 500;
+  }
+  .done-btn:hover { border-color: var(--success); color: var(--success); }
+  .week-card.done .done-btn { border-color: var(--success); color: var(--success); background: rgba(63,185,80,0.1); }
+
+  /* ── CERTIFICATIONS ────────────────────────────────────────────── */
+  .cert-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 16px;
+  }
+
+  .cert-card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 20px;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cert-card:hover { border-color: var(--orange); transform: translateY(-2px); }
+
+  .cert-card.target {
+    border-color: var(--orange);
+    background: linear-gradient(180deg, rgba(255,153,0,0.04) 0%, transparent 100%);
+  }
+
+  .cert-card.target::before {
+    content: 'YOUR TARGET';
+    position: absolute;
+    top: 14px; right: 14px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    color: var(--orange);
+    background: rgba(255,153,0,0.15);
+    padding: 3px 8px;
+    border-radius: 3px;
+    border: 1px solid var(--orange);
+  }
+
+  .cert-level {
+    display: inline-block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 3px;
+    margin-bottom: 12px;
+    font-weight: 600;
+  }
+  .cert-level.foundational { background: rgba(1,168,141,0.15); color: var(--teal); }
+  .cert-level.associate    { background: rgba(20,110,180,0.15); color: #5eb3e8; }
+  .cert-level.professional { background: rgba(255,153,0,0.15); color: var(--orange); }
+
+  .cert-name {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 4px;
+    line-height: 1.3;
+    padding-right: 80px;
+  }
+
+  .cert-issuer {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    margin-bottom: 14px;
+  }
+
+  .cert-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-bottom: 14px;
+    padding: 12px;
+    background: var(--bg3);
+    border-radius: 5px;
+  }
+
+  .cert-stat {
+    text-align: center;
+  }
+
+  .cert-stat-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 8px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 3px;
+  }
+
+  .cert-stat-val {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--orange);
+  }
+
+  .cert-why {
+    font-size: 12px;
+    color: var(--text);
+    line-height: 1.55;
+    margin-bottom: 14px;
+    padding: 10px 12px;
+    background: rgba(20,110,180,0.05);
+    border-left: 2px solid var(--blue);
+    border-radius: 3px;
+  }
+  .cert-why b { color: #5eb3e8; }
+
+  .cert-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--orange);
+    text-decoration: none;
+    padding: 6px 12px;
+    border: 1px solid rgba(255,153,0,0.3);
+    border-radius: 3px;
+    transition: all 0.2s;
+  }
+  .cert-link:hover { background: rgba(255,153,0,0.1); border-color: var(--orange); }
+
+  /* ── RESOURCES ─────────────────────────────────────────────────── */
+  .filter-row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 24px;
+  }
+
+  .filter-btn {
+    padding: 5px 14px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    border: 1px solid var(--line);
+    background: none;
+    color: var(--muted);
+    border-radius: 3px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-weight: 500;
+  }
+  .filter-btn:hover, .filter-btn.active { border-color: var(--orange); color: var(--orange); background: rgba(255,153,0,0.05); }
+
+  .resources-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 12px;
+  }
+
+  .res-card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 14px 16px;
+    transition: all 0.25s;
+    animation: fadeIn 0.3s ease both;
+    position: relative;
+  }
+  .res-card:hover { border-color: var(--orange); }
+
+  .res-card.featured {
+    border-color: var(--orange);
+    background: linear-gradient(180deg, rgba(255,153,0,0.05) 0%, transparent 100%);
+  }
+
+  .res-card.featured::after {
+    content: '⭐';
+    position: absolute;
+    top: 8px; right: 10px;
+    font-size: 13px;
+  }
+
+  .res-top {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+
+  .res-badge {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    padding: 2px 7px;
+    border-radius: 3px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 600;
+  }
+  .badge-course   { background: rgba(20,110,180,0.15); color: #5eb3e8; }
+  .badge-practice { background: rgba(255,153,0,0.15); color: var(--orange); }
+  .badge-docs     { background: rgba(1,168,141,0.15); color: var(--teal); }
+  .badge-video    { background: rgba(248,81,73,0.15); color: #f85149; }
+  .badge-tool     { background: rgba(139,148,158,0.15); color: var(--muted); }
+  .badge-tutorial { background: rgba(255,179,71,0.15); color: var(--orange-soft); }
+  .badge-book     { background: rgba(155,81,224,0.15); color: #c084fc; }
+
+  .res-cost {
+    margin-left: auto;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    color: var(--muted);
+    padding: 1px 6px;
+    border-radius: 2px;
+  }
+  .res-cost.free { color: var(--success); }
+
+  .res-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 4px;
+    line-height: 1.3;
+    padding-right: 20px;
+  }
+
+  .res-meta {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+
+  .res-note {
+    font-size: 11px;
+    color: var(--muted);
+    margin-bottom: 10px;
+    font-style: italic;
+  }
+
+  .res-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--orange);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s;
+  }
+  .res-link:hover { border-bottom-color: var(--orange); }
+
+  /* ── DOMAIN VIZ ────────────────────────────────────────────────── */
+  .domain-viz {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  .domain-card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 16px;
+  }
+
+  .domain-num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.15em;
+    margin-bottom: 4px;
+  }
+
+  .domain-name {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 10px;
+    line-height: 1.3;
+  }
+
+  .domain-bar {
+    height: 6px;
+    background: var(--bg3);
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 6px;
+  }
+
+  .domain-bar-fill {
+    height: 100%;
+    background: var(--orange);
+    border-radius: 3px;
+    transition: width 0.8s ease;
+  }
+
+  .domain-percent {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--orange);
+    letter-spacing: -0.01em;
+  }
+
+  /* ── ANIMATIONS ────────────────────────────────────────────────── */
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateX(-10px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .week-card:nth-child(1) { animation-delay: 0.05s; }
+  .week-card:nth-child(2) { animation-delay: 0.1s; }
+  .week-card:nth-child(3) { animation-delay: 0.15s; }
+  .week-card:nth-child(4) { animation-delay: 0.2s; }
+
+  footer {
+    padding: 40px 0;
+    border-top: 1px solid var(--line);
+    text-align: center;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+  }
+
+  footer .orange { color: var(--orange); }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- HEADER -->
+  <header>
+    <div class="crumb">CERTIFICATION SPRINT · 4 WEEKS</div>
+    <h1>AWS Cloud<br><span>Practitioner</span> Sprint</h1>
+    <p class="tagline">// CLF-C02 · From Java Dev → Cloud Certified in 4 weeks</p>
+    <div class="meta-grid">
+      <div class="meta-card">
+        <div class="meta-label">Exam Code</div>
+        <div class="meta-value">CLF-C02</div>
+      </div>
+      <div class="meta-card">
+        <div class="meta-label">Cost</div>
+        <div class="meta-value">$100 USD</div>
+      </div>
+      <div class="meta-card">
+        <div class="meta-label">Duration</div>
+        <div class="meta-value">90 minutes</div>
+      </div>
+      <div class="meta-card">
+        <div class="meta-label">Questions</div>
+        <div class="meta-value">65</div>
+      </div>
+      <div class="meta-card">
+        <div class="meta-label">Pass Score</div>
+        <div class="meta-value">700 / 1000</div>
+      </div>
+      <div class="meta-card">
+        <div class="meta-label">Validity</div>
+        <div class="meta-value">3 years</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- PROGRESS -->
+  <div class="progress-wrap">
+    <div class="progress-top">
+      <span>// weekly progress</span>
+      <span class="progress-num" id="progress-pct">0 / 4 weeks complete</span>
+    </div>
+    <div class="progress-track">
+      <div class="progress-fill" id="progress-fill"></div>
+    </div>
+  </div>
+
+  <!-- TABS -->
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('domains', this)">⊞ Exam Domains</button>
+    <button class="tab" onclick="switchTab('roadmap', this)">⊙ 4-Week Sprint</button>
+    <button class="tab" onclick="switchTab('certs', this)">⌘ Cert Path</button>
+    <button class="tab" onclick="switchTab('resources', this)">⎈ Resources</button>
+  </div>
+
+  <!-- DOMAINS PANEL -->
+  <div class="panel active" id="panel-domains">
+    <div class="section-label">// CLF-C02 Exam Blueprint</div>
+    <h2 class="section-title">The 4 Exam Domains</h2>
+    <p class="section-desc">
+      The exam is weighted across 4 domains. Domains 2 and 3 together account for 64% of your score —
+      prioritize them heavily. Week 1 builds the mental model; Weeks 2–3 are where you'll do the real work.
+    </p>
+    <div class="domain-viz">
+      <div class="domain-card">
+        <div class="domain-num">DOMAIN 1</div>
+        <div class="domain-name">Cloud Concepts</div>
+        <div class="domain-bar"><div class="domain-bar-fill" style="width: 24%"></div></div>
+        <div class="domain-percent">24%</div>
+      </div>
+      <div class="domain-card">
+        <div class="domain-num">DOMAIN 2</div>
+        <div class="domain-name">Security & Compliance</div>
+        <div class="domain-bar"><div class="domain-bar-fill" style="width: 30%"></div></div>
+        <div class="domain-percent">30%</div>
+      </div>
+      <div class="domain-card">
+        <div class="domain-num">DOMAIN 3</div>
+        <div class="domain-name">Cloud Technology & Services</div>
+        <div class="domain-bar"><div class="domain-bar-fill" style="width: 34%"></div></div>
+        <div class="domain-percent">34%</div>
+      </div>
+      <div class="domain-card">
+        <div class="domain-num">DOMAIN 4</div>
+        <div class="domain-name">Billing, Pricing & Support</div>
+        <div class="domain-bar"><div class="domain-bar-fill" style="width: 12%"></div></div>
+        <div class="domain-percent">12%</div>
+      </div>
+    </div>
+
+    <div style="background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 20px; margin-top: 20px;">
+      <h3 style="font-family: 'Space Grotesk'; font-size: 15px; margin-bottom: 12px; color: #fff;">⚠️ Reality Check on Your Timeline</h3>
+      <p style="font-size: 13px; color: var(--muted); line-height: 1.6;">
+        At 1–3 hrs/week over 4 weeks, you have <strong style="color:#fff;">4–12 hours total</strong> — tight but doable
+        thanks to your Java background. You understand APIs, databases, and deployment. To hit the goal:
+        push closer to 3 hrs/week, use video at 1.5x speed, and front-load Domains 2 & 3.
+        If you slip, extending to 6 weeks is smarter than failing at 4.
+      </p>
+    </div>
+  </div>
+
+  <!-- ROADMAP PANEL -->
+  <div class="panel" id="panel-roadmap">
+    <div class="section-label">// 4-Week Study Sprint</div>
+    <h2 class="section-title">Week-by-Week Plan</h2>
+    <p class="section-desc">Each week targets one domain. Mark weeks complete as you finish them — your progress saves locally.</p>
+
+    <div class="timeline">
+
+      <div class="week-card" id="week-1" data-num="1">
+        <div class="week-header">
+          <div>
+            <div class="week-meta">Week 1 · Domain 1</div>
+            <div class="week-title">Cloud Concepts</div>
+          </div>
+          <span class="domain-weight">📊 24% weight</span>
+        </div>
+
+        <h4>Topics to cover</h4>
+        <div class="topic-pills">
+          <span class="topic-pill">What is Cloud</span>
+          <span class="topic-pill">6 Advantages</span>
+          <span class="topic-pill">Deployment Models</span>
+          <span class="topic-pill">Well-Architected Framework</span>
+          <span class="topic-pill">6 Pillars</span>
+          <span class="topic-pill">Global Infrastructure</span>
+          <span class="topic-pill">Regions & AZs</span>
+          <span class="topic-pill">Edge Locations</span>
+          <span class="topic-pill">Migration 6 R's</span>
+        </div>
+
+        <h4>Hands-on</h4>
+        <div class="services-list">AWS Free Tier signup · Console navigation · IAM root vs user concept</div>
+
+        <div class="milestone">
+          <span>🎯</span>
+          <div><strong>Milestone:</strong> Complete Maarek course sections 1–5 · Score 70%+ on domain 1 quiz</div>
+        </div>
+
+        <div class="week-footer">
+          <span class="target-score">Target: <b>70% confidence</b></span>
+          <button class="done-btn" onclick="toggleWeek(1)">Mark Week Done</button>
+        </div>
+      </div>
+
+      <div class="week-card" id="week-2" data-num="2">
+        <div class="week-header">
+          <div>
+            <div class="week-meta">Week 2 · Domain 2</div>
+            <div class="week-title">Security & Compliance</div>
+          </div>
+          <span class="domain-weight">📊 30% weight</span>
+        </div>
+
+        <h4>Topics to cover</h4>
+        <div class="topic-pills">
+          <span class="topic-pill">Shared Responsibility Model</span>
+          <span class="topic-pill">IAM Users/Groups/Roles</span>
+          <span class="topic-pill">IAM Policies</span>
+          <span class="topic-pill">MFA</span>
+          <span class="topic-pill">Encryption at Rest & Transit</span>
+          <span class="topic-pill">KMS</span>
+          <span class="topic-pill">GuardDuty</span>
+          <span class="topic-pill">Inspector / Macie</span>
+          <span class="topic-pill">Shield / WAF</span>
+          <span class="topic-pill">AWS Artifact</span>
+          <span class="topic-pill">Compliance Programs</span>
+        </div>
+
+        <h4>Hands-on lab</h4>
+        <div class="services-list">Create IAM users + groups · Attach policies · Enable MFA on your root account</div>
+
+        <div class="milestone">
+          <span>🎯</span>
+          <div><strong>Milestone:</strong> Score 80%+ on domain 2 quiz. This is the HIGHEST-weight domain — don't skimp.</div>
+        </div>
+
+        <div class="week-footer">
+          <span class="target-score">Target: <b>80% confidence</b></span>
+          <button class="done-btn" onclick="toggleWeek(2)">Mark Week Done</button>
+        </div>
+      </div>
+
+      <div class="week-card" id="week-3" data-num="3">
+        <div class="week-header">
+          <div>
+            <div class="week-meta">Week 3 · Domain 3</div>
+            <div class="week-title">Cloud Technology & Services</div>
+          </div>
+          <span class="domain-weight">📊 34% weight</span>
+        </div>
+
+        <h4>Topics to cover</h4>
+        <div class="topic-pills">
+          <span class="topic-pill">EC2 Instance Types</span>
+          <span class="topic-pill">S3 Storage Classes</span>
+          <span class="topic-pill">VPC & Subnets</span>
+          <span class="topic-pill">IGW / NAT</span>
+          <span class="topic-pill">RDS vs DynamoDB</span>
+          <span class="topic-pill">Lambda / Serverless</span>
+          <span class="topic-pill">ELB</span>
+          <span class="topic-pill">Auto Scaling</span>
+          <span class="topic-pill">Route 53</span>
+          <span class="topic-pill">CloudFront</span>
+          <span class="topic-pill">SNS / SQS</span>
+          <span class="topic-pill">SageMaker / Rekognition</span>
+        </div>
+
+        <h4>Hands-on lab</h4>
+        <div class="services-list">Launch an EC2 instance · Create S3 bucket · Host a static website</div>
+
+        <div class="milestone">
+          <span>🎯</span>
+          <div><strong>Milestone:</strong> Deploy a static website to S3 + score 75%+ on domain 3 quiz. This is the biggest domain — most services to learn.</div>
+        </div>
+
+        <div class="week-footer">
+          <span class="target-score">Target: <b>75% confidence</b></span>
+          <button class="done-btn" onclick="toggleWeek(3)">Mark Week Done</button>
+        </div>
+      </div>
+
+      <div class="week-card" id="week-4" data-num="4">
+        <div class="week-header">
+          <div>
+            <div class="week-meta">Week 4 · Domain 4 + Final Sprint</div>
+            <div class="week-title">Billing, Pricing, Support + MOCK EXAMS</div>
+          </div>
+          <span class="domain-weight">📊 12% + Review</span>
+        </div>
+
+        <h4>Topics to cover</h4>
+        <div class="topic-pills">
+          <span class="topic-pill">On-Demand Pricing</span>
+          <span class="topic-pill">Reserved Instances</span>
+          <span class="topic-pill">Spot Instances</span>
+          <span class="topic-pill">Savings Plans</span>
+          <span class="topic-pill">Cost Explorer</span>
+          <span class="topic-pill">AWS Budgets</span>
+          <span class="topic-pill">Support Plans</span>
+          <span class="topic-pill">Trusted Advisor</span>
+          <span class="topic-pill">TCO Calculator</span>
+          <span class="topic-pill">AWS Organizations</span>
+        </div>
+
+        <h4>Critical actions</h4>
+        <div class="services-list">2–3 full mock exams (65 Qs each) · Review weak domains · BOOK THE EXAM</div>
+
+        <div class="milestone">
+          <span>🎯</span>
+          <div><strong>Milestone:</strong> Score 80%+ on 2 consecutive full mock exams → schedule the real exam.</div>
+        </div>
+
+        <div class="week-footer">
+          <span class="target-score">Target: <b>85% confidence · Exam ready</b></span>
+          <button class="done-btn" onclick="toggleWeek(4)">Mark Week Done</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- CERTS PANEL -->
+  <div class="panel" id="panel-certs">
+    <div class="section-label">// Your Cert Journey</div>
+    <h2 class="section-title">AWS Certification Path</h2>
+    <p class="section-desc">CCP is your immediate target. After passing, these associate-level certs are natural next steps — especially Developer Associate given your Java background.</p>
+
+    <div class="cert-grid">
+
+      <div class="cert-card target">
+        <div class="cert-level foundational">Foundational</div>
+        <div class="cert-name">AWS Certified Cloud Practitioner (CLF-C02)</div>
+        <div class="cert-issuer">Amazon Web Services</div>
+        <div class="cert-stats">
+          <div class="cert-stat"><div class="cert-stat-label">Cost</div><div class="cert-stat-val">$100</div></div>
+          <div class="cert-stat"><div class="cert-stat-label">Duration</div><div class="cert-stat-val">90 min</div></div>
+          <div class="cert-stat"><div class="cert-stat-label">Valid</div><div class="cert-stat-val">3 yrs</div></div>
+        </div>
+        <div class="cert-why">
+          <b>Why start here:</b> Beginner-friendly, no prerequisites, validates your AWS foundation. Critical credibility signal when you bring cloud conversations to your team.
+        </div>
+        <a href="https://aws.amazon.com/certification/certified-cloud-practitioner/" target="_blank" class="cert-link">View Official Page →</a>
+      </div>
+
+      <div class="cert-card">
+        <div class="cert-level associate">Associate</div>
+        <div class="cert-name">AWS Developer – Associate (DVA-C02)</div>
+        <div class="cert-issuer">Amazon Web Services</div>
+        <div class="cert-stats">
+          <div class="cert-stat"><div class="cert-stat-label">Cost</div><div class="cert-stat-val">$150</div></div>
+          <div class="cert-stat"><div class="cert-stat-label">Duration</div><div class="cert-stat-val">130 min</div></div>
+          <div class="cert-stat"><div class="cert-stat-label">Valid</div><div class="cert-stat-val">3 yrs</div></div>
+        </div>
+        <div class="cert-why">
+          <b>Why this next:</b> Perfect for Java devs — focuses on Lambda, DynamoDB, API Gateway, SDK usage. Directly applies to your full-stack work.
+        </div>
+        <a href="https://aws.amazon.com/certification/certified-developer-associate/" target="_blank" class="cert-link">View Official Page →</a>
+      </div>
+
+      <div class="cert-card">
+        <div class="cert-level associate">Associate</div>
+        <div class="cert-name">AWS Solutions Architect – Associate (SAA-C03)</div>
+        <div class="cert-issuer">Amazon Web Services</div>
+        <div class="cert-stats">
+          <div class="cert-stat"><div class="cert-stat-label">Cost</div><div class="cert-stat-val">$150</div></div>
+          <div class="cert-stat"><div class="cert-stat-label">Duration</div><div class="cert-stat-val">130 min</div></div>
+          <div class="cert-stat"><div class="cert-stat-label">Valid</div><div class="cert-stat-val">3 yrs</div></div>
+        </div>
+        <div class="cert-why">
+          <b>Why consider:</b> Most popular AWS cert. Broader than Developer Associate — architectural thinking. Strong for senior/lead roles later.
+        </div>
+        <a href="https://aws.amazon.com/certification/certified-solutions-architect-associate/" target="_blank" class="cert-link">View Official Page →</a>
+      </div>
+
+      <div class="cert-card">
+        <div class="cert-level professional">Professional</div>
+        <div class="cert-name">AWS Solutions Architect – Professional (SAP-C02)</div>
+        <div class="cert-issuer">Amazon Web Services</div>
+        <div class="cert-stats">
+          <div class="cert-stat"><div class="cert-stat-label">Cost</div><div class="cert-stat-val">$300</div></div>
+          <div class="cert-stat"><div class="cert-stat-label">Duration</div><div class="cert-stat-val">180 min</div></div>
+          <div class="cert-stat"><div class="cert-stat-label">Valid</div><div class="cert-stat-val">3 yrs</div></div>
+        </div>
+        <div class="cert-why">
+          <b>Year-2 move:</b> Advanced architecture, multi-account strategies, hybrid deployments. Salary-bumping cert once you have SAA + real experience.
+        </div>
+        <a href="https://aws.amazon.com/certification/certified-solutions-architect-professional/" target="_blank" class="cert-link">View Official Page →</a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- RESOURCES PANEL -->
+  <div class="panel" id="panel-resources">
+    <div class="section-label">// Curated Study Materials</div>
+    <h2 class="section-title">Resource Library</h2>
+    <p class="section-desc">18 resources. Not all are created equal — the <span style="color:var(--orange);font-weight:600;">5 top picks</span> below are the ones I'd actually reach for first. Scroll down for the full list.</p>
+
+    <!-- Top Picks Callout -->
+    <div style="background: linear-gradient(135deg, rgba(255,153,0,0.08) 0%, rgba(20,110,180,0.05) 100%); border: 1px solid var(--orange); border-radius: 8px; padding: 20px; margin-bottom: 28px;">
+      <div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--orange); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 12px;">⭐ If you only use these, you'll be fine</div>
+      <div id="top-picks-list" style="display: flex; flex-direction: column; gap: 10px;"></div>
+    </div>
+
+    <div class="filter-row">
+      <button class="filter-btn active" onclick="filterRes('all', this)">All</button>
+      <button class="filter-btn" onclick="filterRes('course', this)">Courses</button>
+      <button class="filter-btn" onclick="filterRes('practice', this)">Practice Exams</button>
+      <button class="filter-btn" onclick="filterRes('docs', this)">Docs</button>
+      <button class="filter-btn" onclick="filterRes('video', this)">Videos</button>
+      <button class="filter-btn" onclick="filterRes('tool', this)">Tools</button>
+      <button class="filter-btn" onclick="filterRes('free', this)">Free Only</button>
+    </div>
+
+    <div class="resources-grid" id="resources-grid"></div>
+  </div>
+
+  <footer>
+    <span class="orange">☁</span> AWS CLOUD PRACTITIONER · CLF-C02 · <span class="orange">4-WEEK SPRINT PLAN</span>
+  </footer>
+</div>
+
+<script>
+const RESOURCES = [
+  { name:"Ultimate AWS CCP CLF-C02 (Stephane Maarek)", type:"course", platform:"Udemy", cost:"paid", url:"https://www.udemy.com/course/aws-certified-cloud-practitioner-new/", time:"14.5 hrs", week:"1-4", note:"1.2M+ students · 4.7★ · 221K reviews", featured:true, pickLabel:"TOP COURSE", pickIcon:"🎥", pickReason:"Your primary video course. End-to-end coverage from one of the most trusted AWS instructors." },
+  { name:"AWS Cloud Practitioner Essentials", type:"course", platform:"AWS Skill Builder", cost:"free", url:"https://skillbuilder.aws/", time:"6 hrs", week:"1-4", note:"Official free AWS training", featured:true, pickLabel:"TOP FREE", pickIcon:"🆓", pickReason:"Best free-only path. Official AWS material — no cost, no signup friction." },
+  { name:"AWS CCP Training – Neal Davis", type:"course", platform:"Udemy", cost:"paid", url:"https://www.udemy.com/course/aws-certified-cloud-practitioner-training-course/", time:"12 hrs", week:"1-4", note:"Strong alternative to Maarek", featured:false },
+  { name:"Tutorials Dojo CLF-C02 Practice Exams (Jon Bonso)", type:"practice", platform:"Tutorials Dojo", cost:"paid", url:"https://portal.tutorialsdojo.com/courses/aws-certified-cloud-practitioner-practice-exams/", time:"6 mocks", week:"4", note:"Gold standard for CCP practice exams", featured:true, pickLabel:"TOP PRACTICE", pickIcon:"🧪", pickReason:"The practice exams most passers cite as what got them ready. Get these before Week 4." },
+  { name:"6 Practice Exams – Maarek & Singh", type:"practice", platform:"Udemy", cost:"paid", url:"https://www.udemy.com/course/practice-exams-aws-certified-cloud-practitioner/", time:"6 mocks", week:"4", note:"Second set of practice questions", featured:false },
+  { name:"Official CLF-C02 Exam Guide (PDF)", type:"docs", platform:"aws.amazon.com", cost:"free", url:"https://d1.awsstatic.com/training-and-certification/docs-cloud-practitioner/AWS-Certified-Cloud-Practitioner_Exam-Guide.pdf", time:"1 hr", week:"1", note:"Official domain breakdown", featured:true, pickLabel:"TOP OFFICIAL", pickIcon:"📄", pickReason:"Read this FIRST. It's the authoritative source of what's actually on the exam." },
+  { name:"AWS Official Sample Questions", type:"practice", platform:"aws.amazon.com", cost:"free", url:"https://d1.awsstatic.com/training-and-certification/docs-cloud-practitioner/AWS-Certified-Cloud-Practitioner_Sample-Questions.pdf", time:"30 min", week:"3-4", note:"Free official sample questions", featured:false },
+  { name:"AWS Free Tier Account", type:"tool", platform:"aws.amazon.com", cost:"free", url:"https://aws.amazon.com/free/", time:"Setup", week:"1", note:"Essential for hands-on labs — do this first", featured:false },
+  { name:"FreeCodeCamp CCP Full Course", type:"video", platform:"YouTube", cost:"free", url:"https://www.youtube.com/watch?v=SOTamWNgDKc", time:"14 hrs", week:"1-4", note:"Complete free video alternative", featured:false },
+  { name:"Well-Architected Framework Guide", type:"docs", platform:"aws.amazon.com", cost:"free", url:"https://aws.amazon.com/architecture/well-architected/", time:"2 hrs", week:"1", note:"6 pillars — memorize them, exam favorite", featured:false },
+  { name:"Shared Responsibility Model (Official)", type:"docs", platform:"aws.amazon.com", cost:"free", url:"https://aws.amazon.com/compliance/shared-responsibility-model/", time:"30 min", week:"2", note:"HIGH exam weight — study the chart", featured:false },
+  { name:"AWS Global Infrastructure Map", type:"tool", platform:"aws.amazon.com", cost:"free", url:"https://aws.amazon.com/about-aws/global-infrastructure/", time:"20 min", week:"1", note:"Visualize regions & AZs interactively", featured:false },
+  { name:"Towards The Cloud – CCP Complete Guide", type:"tutorial", platform:"towardsthecloud.com", cost:"free", url:"https://towardsthecloud.com/blog/aws-cloud-practitioner-exam-guide", time:"1 hr", week:"1", note:"Excellent exam strategy write-up", featured:false },
+  { name:"Digital Cloud Training Notes (Cheat Sheet)", type:"book", platform:"digitalcloud.training", cost:"paid", url:"https://digitalcloud.training/aws-certified-cloud-practitioner/", time:"3 hrs", week:"4", note:"Concise cheat sheet format", featured:true, pickLabel:"TOP REFERENCE", pickIcon:"📋", pickReason:"Best final-week review material. One pass through in Week 4 locks in key facts." },
+  { name:"AWS Cloud Quest: Cloud Practitioner", type:"tool", platform:"AWS Skill Builder", cost:"free", url:"https://aws.amazon.com/training/learn-about/cloud-quest/", time:"10 hrs", week:"1-3", note:"Gamified hands-on — fun and useful", featured:false },
+  { name:"ExamPro CCP Free Course", type:"video", platform:"YouTube", cost:"free", url:"https://www.youtube.com/c/ExamProChannel", time:"8 hrs", week:"1-4", note:"Andrew Brown — full free video course", featured:false },
+  { name:"AWS Pricing Calculator", type:"tool", platform:"aws.amazon.com", cost:"free", url:"https://calculator.aws/", time:"30 min", week:"4", note:"Try it yourself — exam asks about it", featured:false },
+  { name:"Trusted Advisor Overview", type:"docs", platform:"aws.amazon.com", cost:"free", url:"https://aws.amazon.com/premiumsupport/technology/trusted-advisor/", time:"30 min", week:"4", note:"5 categories — memorize them", featured:false },
+];
+
+function renderTopPicks() {
+  const container = document.getElementById('top-picks-list');
+  if (!container) return;
+  const picks = RESOURCES.filter(r => r.featured);
+  container.innerHTML = picks.map(p => `
+    <a href="${p.url}" target="_blank" style="display: flex; align-items: center; gap: 14px; padding: 12px 14px; background: var(--bg2); border: 1px solid var(--line); border-radius: 6px; text-decoration: none; transition: all 0.2s;"
+       onmouseover="this.style.borderColor='var(--orange)'; this.style.transform='translateX(3px)'"
+       onmouseout="this.style.borderColor='var(--line)'; this.style.transform='translateX(0)'">
+      <span style="font-size: 20px; flex-shrink: 0;">${p.pickIcon}</span>
+      <div style="flex: 1; min-width: 0;">
+        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 2px; flex-wrap: wrap;">
+          <span style="font-family: 'IBM Plex Mono', monospace; font-size: 9px; padding: 2px 7px; background: rgba(255,153,0,0.15); color: var(--orange); border-radius: 3px; letter-spacing: 0.1em; font-weight: 600;">${p.pickLabel}</span>
+          <span style="font-size: 13px; font-weight: 600; color: #fff;">${p.name}</span>
+        </div>
+        <div style="font-size: 11px; color: var(--muted); line-height: 1.5;">${p.pickReason}</div>
+      </div>
+      <span style="color: var(--orange); font-size: 16px; flex-shrink: 0;">→</span>
+    </a>
+  `).join('');
+}
+
+function renderResources(filter) {
+  const grid = document.getElementById('resources-grid');
+  const filtered = filter === 'free'
+    ? RESOURCES.filter(r => r.cost === 'free')
+    : filter === 'all' ? RESOURCES : RESOURCES.filter(r => r.type === filter);
+
+  grid.innerHTML = filtered.map(r => `
+    <div class="res-card ${r.featured ? 'featured' : ''}">
+      ${r.featured ? `<div style="position: absolute; top: 10px; right: 10px; font-family: 'IBM Plex Mono', monospace; font-size: 8px; padding: 2px 7px; background: var(--orange); color: #fff; border-radius: 3px; letter-spacing: 0.1em; font-weight: 600;">${r.pickLabel}</div>` : ''}
+      <div class="res-top">
+        <span class="res-badge badge-${r.type}">${r.type}</span>
+        <span class="res-cost ${r.cost === 'free' ? 'free' : ''}">${r.cost === 'free' ? 'FREE' : 'PAID'}</span>
+      </div>
+      <div class="res-name">${r.name}</div>
+      <div class="res-meta">${r.platform} · ${r.time} · Week ${r.week}</div>
+      <div class="res-note">${r.note}</div>
+      <a href="${r.url}" target="_blank" class="res-link">Open resource →</a>
+    </div>
+  `).join('');
+}
+
+function filterRes(type, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderResources(type);
+}
+
+function switchTab(tab, btn) {
+  document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('panel-' + tab).classList.add('active');
+}
+
+function toggleWeek(n) {
+  const card = document.getElementById('week-' + n);
+  const isDone = card.classList.toggle('done');
+  const btn = card.querySelector('.done-btn');
+  btn.textContent = isDone ? '✓ Done' : 'Mark Week Done';
+  const done = JSON.parse(localStorage.getItem('ccp_weeks') || '[]');
+  if (isDone && !done.includes(n)) done.push(n);
+  if (!isDone) done.splice(done.indexOf(n), 1);
+  localStorage.setItem('ccp_weeks', JSON.stringify(done));
+  updateProgress();
+}
+
+function updateProgress() {
+  const done = JSON.parse(localStorage.getItem('ccp_weeks') || '[]');
+  const pct = (done.length / 4) * 100;
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('progress-pct').textContent = `${done.length} / 4 weeks complete`;
+}
+
+function loadState() {
+  const done = JSON.parse(localStorage.getItem('ccp_weeks') || '[]');
+  done.forEach(n => {
+    const card = document.getElementById('week-' + n);
+    if (card) {
+      card.classList.add('done');
+      card.querySelector('.done-btn').textContent = '✓ Done';
+    }
+  });
+  updateProgress();
+}
+
+renderResources('all');
+renderTopPicks();
+loadState();
+setTimeout(() => updateProgress(), 300);
+</script>
+</body>
+</html>

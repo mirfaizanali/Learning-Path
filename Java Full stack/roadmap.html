@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Java Full Stack + AI — Personal Roadmap</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=JetBrains+Mono:wght@400;600&family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0D1B2A;
+    --paper: #FAF7F2;
+    --paper-2: #F2EDE4;
+    --rust: #C84B31;
+    --rust-dark: #A83920;
+    --ochre: #E8A33D;
+    --sage: #5D8C6A;
+    --teal: #2F6E74;
+    --lilac: #8C6FB8;
+    --muted: #6B5F52;
+    --line: #2B1D12;
+    --shadow: 4px 4px 0 var(--line);
+    --shadow-sm: 2px 2px 0 var(--line);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter Tight', -apple-system, sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.55;
+    overflow-x: hidden;
+    background-image:
+      radial-gradient(circle at 1px 1px, rgba(45,30,20,0.08) 1px, transparent 0);
+    background-size: 20px 20px;
+  }
+
+  /* ===== TOP NEWSPAPER MASTHEAD ===== */
+  .masthead {
+    border-bottom: 3px double var(--line);
+    background: var(--paper);
+    padding: 18px 32px 14px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(6px);
+    background: rgba(250, 247, 242, 0.95);
+  }
+  .masthead-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+  }
+  .edition { font-weight: 600; color: var(--rust); }
+
+  /* ===== HERO ===== */
+  .hero {
+    padding: 80px 32px 60px;
+    max-width: 1280px;
+    margin: 0 auto;
+    position: relative;
+  }
+  .hero-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--rust);
+    margin-bottom: 24px;
+    display: inline-block;
+    padding: 6px 12px;
+    background: var(--paper-2);
+    border: 2px solid var(--line);
+    box-shadow: var(--shadow-sm);
+    animation: slide-in 0.6s ease-out both;
+  }
+  .hero h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 900;
+    font-size: clamp(48px, 8vw, 112px);
+    line-height: 0.92;
+    letter-spacing: -0.035em;
+    margin-bottom: 28px;
+    animation: slide-in 0.8s ease-out 0.1s both;
+  }
+  .hero h1 em {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--rust);
+  }
+  .hero h1 .ai-stamp {
+    display: inline-block;
+    font-size: 0.5em;
+    font-weight: 600;
+    font-family: 'JetBrains Mono', monospace;
+    background: var(--ink);
+    color: var(--paper);
+    padding: 4px 14px;
+    margin-left: 8px;
+    transform: rotate(-2deg);
+    vertical-align: middle;
+    letter-spacing: 0.08em;
+  }
+  .hero-sub {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    font-style: italic;
+    color: var(--muted);
+    max-width: 720px;
+    margin-bottom: 48px;
+    animation: slide-in 0.8s ease-out 0.2s both;
+  }
+  .hero-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 0;
+    border: 3px solid var(--line);
+    background: var(--paper);
+    box-shadow: var(--shadow);
+    animation: slide-in 0.8s ease-out 0.3s both;
+  }
+  .stat {
+    padding: 24px 20px;
+    border-right: 2px solid var(--line);
+    text-align: center;
+  }
+  .stat:last-child { border-right: none; }
+  .stat-num {
+    font-family: 'Fraunces', serif;
+    font-weight: 900;
+    font-size: 42px;
+    line-height: 1;
+    color: var(--rust);
+  }
+  .stat-lbl {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    margin-top: 6px;
+  }
+
+  /* ===== SECTION STYLE ===== */
+  section {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 60px 32px;
+  }
+  .section-head {
+    display: flex;
+    align-items: baseline;
+    gap: 20px;
+    margin-bottom: 50px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid var(--line);
+  }
+  .section-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    color: var(--muted);
+    font-weight: 600;
+  }
+  .section-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 900;
+    font-size: clamp(32px, 5vw, 56px);
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+  .section-title em {
+    font-style: italic;
+    color: var(--rust);
+    font-weight: 400;
+  }
+
+  /* ===== TIMELINE / PHASES ===== */
+  .phases {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    position: relative;
+  }
+  .phase {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 32px;
+    padding: 32px;
+    background: var(--paper);
+    border: 3px solid var(--line);
+    box-shadow: var(--shadow);
+    position: relative;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    cursor: pointer;
+  }
+  .phase:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0 var(--line);
+  }
+  .phase.done {
+    background: linear-gradient(135deg, #E8F0E4 0%, var(--paper-2) 100%);
+  }
+  .phase.done::after {
+    content: "✓ DONE";
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    background: var(--sage);
+    color: white;
+    padding: 4px 10px;
+    letter-spacing: 0.1em;
+    transform: rotate(3deg);
+  }
+  .phase-num {
+    font-family: 'Fraunces', serif;
+    font-weight: 900;
+    font-size: 88px;
+    line-height: 0.85;
+    color: var(--rust);
+    font-style: italic;
+  }
+  .phase-body h3 {
+    font-family: 'Fraunces', serif;
+    font-weight: 900;
+    font-size: 30px;
+    letter-spacing: -0.02em;
+    margin-bottom: 8px;
+    line-height: 1.1;
+  }
+  .phase-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 18px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .meta-tag {
+    padding: 4px 10px;
+    background: var(--paper-2);
+    border: 1.5px solid var(--line);
+  }
+  .meta-tag.time { background: var(--ochre); color: var(--ink); }
+  .meta-tag.cert { background: var(--teal); color: white; }
+  .meta-tag.star { background: var(--rust); color: white; }
+  .topics {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 16px 0;
+  }
+  .topic-pill {
+    padding: 5px 12px;
+    background: var(--paper-2);
+    border: 1.5px solid var(--line);
+    font-size: 13px;
+    font-weight: 500;
+    border-radius: 999px;
+    transition: background 0.2s;
+  }
+  .phase:hover .topic-pill { background: white; }
+  .milestone {
+    margin-top: 18px;
+    padding: 14px 18px;
+    background: var(--ink);
+    color: var(--paper);
+    font-family: 'Fraunces', serif;
+    font-size: 15px;
+    font-style: italic;
+    line-height: 1.4;
+  }
+  .milestone::before {
+    content: "→ Ship: ";
+    font-family: 'JetBrains Mono', monospace;
+    font-style: normal;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--ochre);
+    margin-right: 8px;
+  }
+  .phase-actions {
+    margin-top: 16px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+  .check-btn {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 8px 16px;
+    background: var(--paper);
+    border: 2px solid var(--line);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .check-btn:hover { background: var(--ink); color: var(--paper); }
+  .check-btn.active { background: var(--sage); color: white; border-color: var(--sage); }
+
+  /* Sprint banner */
+  .sprint-banner {
+    margin: 24px 0 32px;
+    padding: 20px 28px;
+    background: var(--ochre);
+    border: 3px solid var(--line);
+    box-shadow: var(--shadow);
+    font-family: 'Fraunces', serif;
+    font-size: 18px;
+    font-style: italic;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .sprint-banner strong {
+    font-style: normal;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    background: var(--ink);
+    color: var(--paper);
+    padding: 4px 10px;
+  }
+
+  /* ===== CERTS ===== */
+  .certs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+  }
+  .cert {
+    padding: 24px;
+    background: var(--paper);
+    border: 3px solid var(--line);
+    box-shadow: var(--shadow);
+    transition: all 0.25s;
+    position: relative;
+  }
+  .cert.top {
+    background: linear-gradient(135deg, #FFF4DB 0%, var(--paper) 100%);
+  }
+  .cert.top::before {
+    content: "⭐ TOP PICK";
+    position: absolute;
+    top: -14px;
+    left: 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    background: var(--rust);
+    color: white;
+    padding: 4px 10px;
+  }
+  .cert:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0 var(--line); }
+  .cert-level {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    padding: 3px 9px;
+    margin-bottom: 12px;
+  }
+  .level-foundational { background: var(--teal); color: white; }
+  .level-associate { background: var(--lilac); color: white; }
+  .level-professional { background: var(--rust); color: white; }
+  .cert h4 {
+    font-family: 'Fraunces', serif;
+    font-weight: 900;
+    font-size: 22px;
+    line-height: 1.15;
+    margin-bottom: 6px;
+    letter-spacing: -0.01em;
+  }
+  .cert-body { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--muted); margin-bottom: 14px; letter-spacing: 0.05em; }
+  .cert-details {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px 16px;
+    font-size: 13px;
+    margin-bottom: 14px;
+    padding: 12px;
+    background: var(--paper-2);
+    border: 1.5px solid var(--line);
+  }
+  .cert-details div strong {
+    display: block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    font-weight: 600;
+    margin-bottom: 2px;
+  }
+  .cert-why {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--ink);
+    border-left: 3px solid var(--rust);
+    padding-left: 12px;
+    margin-bottom: 14px;
+  }
+  .cert-link {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink);
+    text-decoration: none;
+    border-bottom: 2px solid var(--rust);
+    padding-bottom: 2px;
+    transition: color 0.2s;
+  }
+  .cert-link:hover { color: var(--rust); }
+
+  /* ===== RESOURCES ===== */
+  .filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 32px;
+    padding: 16px;
+    border: 2px solid var(--line);
+    background: var(--paper-2);
+  }
+  .filter-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    margin-right: 4px;
+    align-self: center;
+  }
+  .filter-btn {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 6px 12px;
+    background: var(--paper);
+    border: 1.5px solid var(--line);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .filter-btn:hover { background: var(--ink); color: var(--paper); }
+  .filter-btn.active { background: var(--rust); color: white; border-color: var(--rust); }
+  .resources-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+  }
+  .resource {
+    padding: 20px;
+    background: var(--paper);
+    border: 2px solid var(--line);
+    display: flex;
+    flex-direction: column;
+    transition: all 0.2s;
+    position: relative;
+  }
+  .resource:hover { box-shadow: var(--shadow-sm); transform: translate(-1px, -1px); }
+  .resource.featured {
+    background: linear-gradient(135deg, #FFF4DB 0%, var(--paper) 60%);
+    border-width: 3px;
+    box-shadow: var(--shadow-sm);
+  }
+  .resource.featured::before {
+    content: "⭐";
+    position: absolute;
+    top: -8px;
+    right: 12px;
+    font-size: 20px;
+    background: var(--paper);
+    padding: 0 6px;
+  }
+  .r-type {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--rust);
+    margin-bottom: 8px;
+  }
+  .resource h5 {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 17px;
+    line-height: 1.2;
+    margin-bottom: 10px;
+  }
+  .r-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 8px 0 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+  }
+  .r-meta span {
+    padding: 2px 7px;
+    background: var(--paper-2);
+    border: 1px solid var(--line);
+  }
+  .r-notes {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.4;
+    margin-bottom: 12px;
+    flex-grow: 1;
+  }
+  .r-link {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    text-decoration: none;
+    color: var(--ink);
+    border-bottom: 2px solid var(--rust);
+    align-self: flex-start;
+  }
+  .r-link:hover { color: var(--rust); }
+
+  /* ===== FOOTER ===== */
+  footer {
+    margin-top: 80px;
+    padding: 40px 32px 60px;
+    border-top: 3px double var(--line);
+    text-align: center;
+    background: var(--paper-2);
+  }
+  footer p {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 18px;
+    color: var(--muted);
+    max-width: 600px;
+    margin: 0 auto 12px;
+  }
+  footer .tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--rust);
+  }
+
+  /* ===== ANIMATIONS ===== */
+  @keyframes slide-in {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .reveal { opacity: 0; transform: translateY(30px); transition: all 0.6s ease-out; }
+  .reveal.in { opacity: 1; transform: translateY(0); }
+
+  /* Responsive */
+  @media (max-width: 720px) {
+    .phase { grid-template-columns: 1fr; gap: 12px; padding: 24px; }
+    .phase-num { font-size: 56px; }
+    .hero { padding: 48px 20px 40px; }
+    section { padding: 40px 20px; }
+    .section-head { flex-direction: column; align-items: flex-start; gap: 6px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="masthead">
+  <div class="masthead-row">
+    <span class="edition">Personal Edition № 01</span>
+    <span>VOL. I — LEARN · BUILD · SHIP</span>
+    <span>3-MO SPRINT + 7-MO TRACK</span>
+  </div>
+</div>
+
+<div class="hero">
+  <span class="hero-eyebrow">For: Cognizant Gen C → Senior Dev Track</span>
+  <h1>
+    Java<em> Full Stack</em><br>
+    meets<span class="ai-stamp">AI 2026</span>
+  </h1>
+  <p class="hero-sub">
+    A personal roadmap to level up from fresher to sought-after full-stack engineer —
+    Spring Boot, Angular, Microservices, and Gen-AI integration, one phase at a time.
+  </p>
+  <div class="hero-stats">
+    <div class="stat"><div class="stat-num">5</div><div class="stat-lbl">Phases</div></div>
+    <div class="stat"><div class="stat-num">4</div><div class="stat-lbl">Certifications</div></div>
+    <div class="stat"><div class="stat-num">22</div><div class="stat-lbl">Top Resources</div></div>
+    <div class="stat"><div class="stat-num">5h</div><div class="stat-lbl">Per Week</div></div>
+    <div class="stat"><div class="stat-num">3mo</div><div class="stat-lbl">First Sprint</div></div>
+  </div>
+</div>
+
+<!-- ============ PHASES ============ -->
+<section id="phases" class="reveal">
+  <div class="section-head">
+    <span class="section-num">§ 01</span>
+    <h2 class="section-title">The <em>Roadmap</em></h2>
+  </div>
+
+  <div class="sprint-banner">
+    <strong>3-Month Sprint</strong>
+    <span>Focus weeks 1–12 on Phases 1 &amp; 2. At ~5 hrs/week, that's realistic. Phases 3–5 continue the journey over months 4–7.</span>
+  </div>
+
+  <div class="phases">
+    <div class="phase" data-id="p1">
+      <div class="phase-num">01</div>
+      <div class="phase-body">
+        <h3>Spring Boot Mastery</h3>
+        <div class="phase-meta">
+          <span class="meta-tag time">Weeks 1–5 · 25 hrs</span>
+          <span class="meta-tag star">★ Sprint Phase</span>
+          <span class="meta-tag">Build on Spring Core</span>
+        </div>
+        <div class="topics">
+          <span class="topic-pill">Auto-configuration</span>
+          <span class="topic-pill">REST APIs</span>
+          <span class="topic-pill">Spring Data JPA</span>
+          <span class="topic-pill">Hibernate</span>
+          <span class="topic-pill">Validation</span>
+          <span class="topic-pill">Spring Security + JWT</span>
+          <span class="topic-pill">Lombok</span>
+          <span class="topic-pill">Actuator</span>
+          <span class="topic-pill">Swagger / OpenAPI</span>
+        </div>
+        <div class="milestone">Secure Task Manager REST API with JWT auth, MySQL, and Swagger docs — tested with Postman, deployed locally.</div>
+        <div class="phase-actions"><button class="check-btn" data-phase="p1">Mark complete</button></div>
+      </div>
+    </div>
+
+    <div class="phase" data-id="p2">
+      <div class="phase-num">02</div>
+      <div class="phase-body">
+        <h3>Angular Fundamentals</h3>
+        <div class="phase-meta">
+          <span class="meta-tag time">Weeks 6–12 · 35 hrs</span>
+          <span class="meta-tag star">★ Sprint Phase</span>
+          <span class="meta-tag">Frontend track</span>
+        </div>
+        <div class="topics">
+          <span class="topic-pill">TypeScript</span>
+          <span class="topic-pill">Angular CLI</span>
+          <span class="topic-pill">Components &amp; Directives</span>
+          <span class="topic-pill">Services + DI</span>
+          <span class="topic-pill">Routing</span>
+          <span class="topic-pill">Reactive Forms</span>
+          <span class="topic-pill">HttpClient</span>
+          <span class="topic-pill">RxJS basics</span>
+          <span class="topic-pill">Full-stack integration</span>
+        </div>
+        <div class="milestone">Angular frontend wired to your Phase 1 API — deployed to Netlify. First true full-stack project shipped.</div>
+        <div class="phase-actions"><button class="check-btn" data-phase="p2">Mark complete</button></div>
+      </div>
+    </div>
+
+    <div class="phase" data-id="p3">
+      <div class="phase-num">03</div>
+      <div class="phase-body">
+        <h3>Microservices &amp; DevOps</h3>
+        <div class="phase-meta">
+          <span class="meta-tag time">Weeks 13–18 · 30 hrs</span>
+          <span class="meta-tag cert">Spring Pro prep</span>
+          <span class="meta-tag">Continuation track</span>
+        </div>
+        <div class="topics">
+          <span class="topic-pill">Microservices principles</span>
+          <span class="topic-pill">Spring Cloud</span>
+          <span class="topic-pill">API Gateway</span>
+          <span class="topic-pill">Eureka</span>
+          <span class="topic-pill">Docker</span>
+          <span class="topic-pill">Docker Compose</span>
+          <span class="topic-pill">GitHub Actions CI/CD</span>
+          <span class="topic-pill">JUnit 5 + Mockito</span>
+        </div>
+        <div class="milestone">Split monolith into 2 microservices, containerize with Docker, set up CI pipeline in GitHub Actions.</div>
+        <div class="phase-actions"><button class="check-btn" data-phase="p3">Mark complete</button></div>
+      </div>
+    </div>
+
+    <div class="phase" data-id="p4">
+      <div class="phase-num">04</div>
+      <div class="phase-body">
+        <h3>AI for Java Devs <span style="font-size:0.5em;background:var(--ink);color:var(--paper);padding:3px 8px;font-family:'JetBrains Mono',monospace;letter-spacing:0.08em;vertical-align:middle;">DIFFERENTIATOR</span></h3>
+        <div class="phase-meta">
+          <span class="meta-tag time">Weeks 19–23 · 25 hrs</span>
+          <span class="meta-tag star">★ Portfolio Highlight</span>
+          <span class="meta-tag">High-signal skill</span>
+        </div>
+        <div class="topics">
+          <span class="topic-pill">LLM fundamentals</span>
+          <span class="topic-pill">Prompt engineering</span>
+          <span class="topic-pill">Spring AI</span>
+          <span class="topic-pill">LangChain4j</span>
+          <span class="topic-pill">OpenAI / Anthropic APIs</span>
+          <span class="topic-pill">RAG pattern</span>
+          <span class="topic-pill">Vector DBs (pgvector)</span>
+          <span class="topic-pill">Embeddings</span>
+          <span class="topic-pill">Function calling</span>
+        </div>
+        <div class="milestone">Add an AI assistant to Task Manager — RAG over user tasks. This is what sets your resume apart in 2026.</div>
+        <div class="phase-actions"><button class="check-btn" data-phase="p4">Mark complete</button></div>
+      </div>
+    </div>
+
+    <div class="phase" data-id="p5">
+      <div class="phase-num">05</div>
+      <div class="phase-body">
+        <h3>Cloud + Capstone + Interviews</h3>
+        <div class="phase-meta">
+          <span class="meta-tag time">Weeks 24–28 · 25 hrs</span>
+          <span class="meta-tag cert">AWS CCP cert</span>
+          <span class="meta-tag">Job-ready</span>
+        </div>
+        <div class="topics">
+          <span class="topic-pill">AWS EC2</span>
+          <span class="topic-pill">S3</span>
+          <span class="topic-pill">RDS</span>
+          <span class="topic-pill">IAM</span>
+          <span class="topic-pill">Deployment</span>
+          <span class="topic-pill">System design basics</span>
+          <span class="topic-pill">DSA refresh</span>
+          <span class="topic-pill">Mock interviews</span>
+        </div>
+        <div class="milestone">Deploy full-stack app to AWS. Polish GitHub. Pass AWS Cloud Practitioner. Update resume. Apply.</div>
+        <div class="phase-actions"><button class="check-btn" data-phase="p5">Mark complete</button></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CERTS ============ -->
+<section id="certs" class="reveal">
+  <div class="section-head">
+    <span class="section-num">§ 02</span>
+    <h2 class="section-title">The <em>Certifications</em></h2>
+  </div>
+  <div class="certs-grid">
+    <div class="cert top">
+      <span class="cert-level level-professional">Professional</span>
+      <h4>Spring Certified Professional 2024</h4>
+      <div class="cert-body">Broadcom / VMware Tanzu</div>
+      <div class="cert-details">
+        <div><strong>Format</strong>60 MCQ · 90 min · 76% pass</div>
+        <div><strong>Cost</strong>$275</div>
+        <div><strong>Validity</strong>Lifetime</div>
+        <div><strong>When</strong>After Phase 3</div>
+      </div>
+      <div class="cert-why">The single most credible Spring credential for Java developers. Signals real Spring Boot mastery to recruiters.</div>
+      <a class="cert-link" href="https://www.vmware.com/learning/certification/spring-professional.html" target="_blank">Official page →</a>
+      <div class="phase-actions" style="margin-top:14px;"><button class="check-btn" data-cert="c1">Mark passed</button></div>
+    </div>
+
+    <div class="cert top">
+      <span class="cert-level level-foundational">Foundational</span>
+      <h4>AWS Cloud Practitioner (CLF-C02)</h4>
+      <div class="cert-body">Amazon Web Services</div>
+      <div class="cert-details">
+        <div><strong>Format</strong>65 Qs · 90 min · 700/1000 pass</div>
+        <div><strong>Cost</strong>$100</div>
+        <div><strong>Validity</strong>3 years</div>
+        <div><strong>When</strong>Phase 5</div>
+      </div>
+      <div class="cert-why">Cloud literacy is now table stakes. CCP is the fastest, cheapest way to prove you can work with AWS.</div>
+      <a class="cert-link" href="https://aws.amazon.com/certification/certified-cloud-practitioner/" target="_blank">Official page →</a>
+      <div class="phase-actions" style="margin-top:14px;"><button class="check-btn" data-cert="c2">Mark passed</button></div>
+    </div>
+
+    <div class="cert">
+      <span class="cert-level level-professional">Professional</span>
+      <h4>Oracle Java SE 17 Developer (1Z0-829)</h4>
+      <div class="cert-body">Oracle</div>
+      <div class="cert-details">
+        <div><strong>Format</strong>50 MCQ · 90 min · 68% pass</div>
+        <div><strong>Cost</strong>$245</div>
+        <div><strong>Validity</strong>Lifetime</div>
+        <div><strong>When</strong>Optional · parallel Phase 1</div>
+      </div>
+      <div class="cert-why">Strong résumé keyword for Indian service-company roles. Optional — valuable mainly if interviewing externally soon.</div>
+      <a class="cert-link" href="https://education.oracle.com/java-se-17-developer/pexam_1Z0-829" target="_blank">Official page →</a>
+      <div class="phase-actions" style="margin-top:14px;"><button class="check-btn" data-cert="c3">Mark passed</button></div>
+    </div>
+
+    <div class="cert">
+      <span class="cert-level level-associate">Associate</span>
+      <h4>AWS Developer – Associate (DVA-C02)</h4>
+      <div class="cert-body">Amazon Web Services</div>
+      <div class="cert-details">
+        <div><strong>Format</strong>65 Qs · 130 min · 720/1000 pass</div>
+        <div><strong>Cost</strong>$150</div>
+        <div><strong>Validity</strong>3 years</div>
+        <div><strong>When</strong>After CCP (Phase 5+)</div>
+      </div>
+      <div class="cert-why">The natural next cert. Big salary signal for full-stack + cloud roles. Pursue after CCP once you have AWS project experience.</div>
+      <a class="cert-link" href="https://aws.amazon.com/certification/certified-developer-associate/" target="_blank">Official page →</a>
+      <div class="phase-actions" style="margin-top:14px;"><button class="check-btn" data-cert="c4">Mark passed</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ RESOURCES ============ -->
+<section id="resources" class="reveal">
+  <div class="section-head">
+    <span class="section-num">§ 03</span>
+    <h2 class="section-title">The <em>Resources</em></h2>
+  </div>
+
+  <div class="filter-bar">
+    <span class="filter-label">Filter by phase:</span>
+    <button class="filter-btn active" data-filter="all">All</button>
+    <button class="filter-btn" data-filter="p1">Phase 1</button>
+    <button class="filter-btn" data-filter="p2">Phase 2</button>
+    <button class="filter-btn" data-filter="p3">Phase 3</button>
+    <button class="filter-btn" data-filter="p4">Phase 4</button>
+    <button class="filter-btn" data-filter="p5">Phase 5</button>
+    <button class="filter-btn" data-filter="featured">⭐ Top picks</button>
+  </div>
+
+  <div class="resources-grid" id="resGrid">
+    <!-- Populated by JS -->
+  </div>
+</section>
+
+<footer>
+  <p>"The roadmap is only paper until you write the first line of code. Week 1 starts now."</p>
+  <div class="tag">— END OF EDITION —</div>
+</footer>
+
+<script>
+  const resources = [
+    {name:"Spring Boot 3 & Spring Framework 6 (Chad Darby)", type:"Video Course", meta:["Udemy","Intermediate","$15–30","30 hrs"], url:"https://www.udemy.com/course/spring-hibernate-tutorial/", phase:"p1", featured:true, notes:"Your primary Spring Boot course. Comprehensive, current, and paced well for someone with Spring Core background."},
+    {name:"Spring Boot Official Reference", type:"Docs", meta:["spring.io","All levels","Free","Ongoing"], url:"https://docs.spring.io/spring-boot/docs/current/reference/html/", phase:"p1", featured:false, notes:"Bookmark this. Best source of truth for every Spring Boot feature."},
+    {name:"Amigoscode Spring Boot Tutorials", type:"YouTube", meta:["YouTube","Intermediate","Free","10–15 hrs"], url:"https://www.youtube.com/@amigoscode", phase:"p1", featured:false, notes:"Free, high-quality supplement — especially good for JWT + Spring Security deep dives."},
+    {name:"Baeldung Spring Tutorials", type:"Articles", meta:["baeldung.com","All levels","Free","Ongoing"], url:"https://www.baeldung.com/spring-boot", phase:"p1", featured:false, notes:"Your go-to when debugging specific Spring problems. Google + Baeldung is a killer combo."},
+
+    {name:"Angular — The Complete Guide (Max Schwarzmüller)", type:"Video Course", meta:["Udemy","All levels","$15–30","36 hrs"], url:"https://www.udemy.com/course/the-complete-guide-to-angular-2/", phase:"p2", featured:true, notes:"THE Angular course. Updated for modern Angular. Your main Phase 2 resource."},
+    {name:"Angular Official Tutorials", type:"Docs", meta:["angular.dev","All levels","Free","10 hrs"], url:"https://angular.dev/tutorials", phase:"p2", featured:false, notes:"Newly revamped official tutorials. Start with 'Tour of Heroes' the first week."},
+    {name:"TypeScript Handbook", type:"Docs", meta:["typescriptlang.org","Beginner","Free","4 hrs"], url:"https://www.typescriptlang.org/docs/handbook/intro.html", phase:"p2", featured:false, notes:"Read in week 1 of Phase 2 before diving deep into Angular."},
+    {name:"Fireship — Angular Videos", type:"YouTube", meta:["YouTube","All levels","Free","Browse"], url:"https://www.youtube.com/@Fireship", phase:"p2", featured:false, notes:"Quick mental models, best for review & high-level understanding."},
+
+    {name:"Master Microservices (Eazy Bytes)", type:"Video Course", meta:["Udemy","Intermediate","$15–30","52 hrs"], url:"https://www.udemy.com/course/master-microservices-with-spring-docker-kubernetes/", phase:"p3", featured:true, notes:"Industry-grade depth. The most thorough Spring microservices course on Udemy."},
+    {name:"Docker Mastery (Bret Fisher)", type:"Video Course", meta:["Udemy","Beginner","$15–30","20 hrs"], url:"https://www.udemy.com/course/docker-mastery/", phase:"p3", featured:false, notes:"Best Docker course on the internet. Worth every minute."},
+    {name:"JUnit 5 + Mockito", type:"Video Course", meta:["Udemy","Intermediate","$15–30","10 hrs"], url:"https://www.udemy.com/course/junit-mockito-from-beginner-to-expert/", phase:"p3", featured:false, notes:"Testing is a must-have for Spring Pro cert + serious job interviews."},
+    {name:"GitHub Actions — Official Docs", type:"Docs", meta:["github.com","Beginner","Free","4 hrs"], url:"https://docs.github.com/en/actions", phase:"p3", featured:false, notes:"Free CI/CD. Add a green build badge to your portfolio repo."},
+
+    {name:"Spring AI Reference", type:"Docs", meta:["spring.io","Intermediate","Free","8 hrs"], url:"https://docs.spring.io/spring-ai/reference/", phase:"p4", featured:true, notes:"Official, current, free. Start Phase 4 here. Spring AI is the Java way to build LLM apps."},
+    {name:"LangChain4j Docs", type:"Docs", meta:["langchain4j.dev","Intermediate","Free","6 hrs"], url:"https://docs.langchain4j.dev/", phase:"p4", featured:false, notes:"Java alternative to Python's LangChain. Excellent examples for RAG and agents."},
+    {name:"Dan Vega — Spring AI YouTube", type:"YouTube", meta:["YouTube","Intermediate","Free","4 hrs"], url:"https://www.youtube.com/@DanVega", phase:"p4", featured:false, notes:"Practical Spring AI walkthroughs by a VMware advocate. Pure signal."},
+    {name:"Anthropic + OpenAI API Docs", type:"Docs", meta:["Multiple","All levels","Pay-per-use","3 hrs"], url:"https://docs.claude.com", phase:"p4", featured:false, notes:"API basics + pricing. Get API keys early so you can actually build."},
+
+    {name:"AWS CCP Course (Stéphane Maarek)", type:"Video Course", meta:["Udemy","Beginner","$15–30","14 hrs"], url:"https://www.udemy.com/course/aws-certified-cloud-practitioner-new/", phase:"p5", featured:true, notes:"Maarek is THE AWS cert instructor. Don't waste time comparison shopping — just take his course."},
+    {name:"Tutorials Dojo CCP Practice", type:"Practice Tests", meta:["tutorialsdojo.com","Beginner","$15","10 hrs"], url:"https://portal.tutorialsdojo.com/", phase:"p5", featured:false, notes:"Most realistic practice exams. Take these 2 weeks before your CCP exam date."},
+    {name:"Grokking the System Design Interview", type:"Course", meta:["DesignGurus","Intermediate","$30/mo","20 hrs"], url:"https://www.designgurus.io/course/grokking-the-system-design-interview", phase:"p5", featured:false, notes:"Even mid-level Java dev interviews now ask system design. This is the standard prep."},
+    {name:"NeetCode 150 (DSA)", type:"Problems", meta:["neetcode.io","Intermediate","Free","40+ hrs"], url:"https://neetcode.io/practice", phase:"p5", featured:false, notes:"Curated DSA list with video solutions. Do Blind 75 first."},
+
+    {name:"Spring Pro Official Study Guide", type:"Study Guide", meta:["VMware","Professional","Free","Ongoing"], url:"https://tanzu.vmware.com/training/certification/spring-professional-certification", phase:"p3", featured:false, notes:"Official exam objectives. Review 2 weeks before booking the Spring Pro exam."},
+    {name:"Full Stack Open (U. of Helsinki)", type:"Online Course", meta:["fullstackopen.com","Intermediate","Free","100+ hrs"], url:"https://fullstackopen.com/en/", phase:"all", featured:false, notes:"Free university-grade course. Not Angular-specific, but excellent for the full-stack mental model."}
+  ];
+
+  const grid = document.getElementById('resGrid');
+  let currentFilter = 'all';
+
+  function renderResources() {
+    grid.innerHTML = '';
+    const visible = resources.filter(r => {
+      if (currentFilter === 'all') return true;
+      if (currentFilter === 'featured') return r.featured;
+      return r.phase === currentFilter || r.phase === 'all';
+    });
+    visible.forEach((r, i) => {
+      const card = document.createElement('div');
+      card.className = 'resource' + (r.featured ? ' featured' : '');
+      card.style.animationDelay = (i * 0.03) + 's';
+      card.innerHTML = `
+        <div class="r-type">${r.type}</div>
+        <h5>${r.name}</h5>
+        <div class="r-meta">${r.meta.map(m => `<span>${m}</span>`).join('')}</div>
+        <div class="r-notes">${r.notes}</div>
+        <a class="r-link" href="${r.url}" target="_blank" rel="noopener">Open →</a>
+      `;
+      grid.appendChild(card);
+    });
+  }
+
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentFilter = btn.dataset.filter;
+      renderResources();
+    });
+  });
+  renderResources();
+
+  // Progress (in-memory only — no localStorage per artifact rules)
+  const progress = { phases: {}, certs: {} };
+  document.querySelectorAll('.check-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isPhase = btn.dataset.phase;
+      const isCert = btn.dataset.cert;
+      const key = isPhase || isCert;
+      const bucket = isPhase ? progress.phases : progress.certs;
+      bucket[key] = !bucket[key];
+      btn.classList.toggle('active');
+      btn.textContent = btn.classList.contains('active')
+        ? (isPhase ? '✓ Completed' : '✓ Passed')
+        : (isPhase ? 'Mark complete' : 'Mark passed');
+      if (isPhase) {
+        const phaseEl = document.querySelector(`[data-id="${isPhase}"]`);
+        phaseEl.classList.toggle('done');
+      }
+    });
+  });
+
+  // Reveal on scroll
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('in');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+
+</body>
+</html>
